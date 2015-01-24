@@ -16,7 +16,7 @@ namespace GameJam2015
     /// </summary>
     public class Game1 : Game
     {
-        readonly int PLAYER_SPEED = 55;
+        readonly int PLAYER_SPEED = 12;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Timer aTime;
@@ -64,11 +64,10 @@ namespace GameJam2015
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-
             // Load the player resources
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
-            player.Initialize(Content.Load<Texture2D>("Sprite.png"), playerPosition);
-            collision_tester.Initialize(Content.Load<Texture2D>("Sprite.png"), new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
+            player.Initialize(Content.Load<Texture2D>("Sprite.png"), 0.5f, playerPosition);
+            collision_tester.Initialize(Content.Load<Texture2D>("Sprite.png"), 0.5f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
         }
 
         /// <summary>

@@ -9,9 +9,9 @@ namespace GameJam2015
 {
     public class Player : Entity
     {
-        public new void Initialize(Texture2D texture, Vector2 position)
+        public new void Initialize(Texture2D texture, float scale, Vector2 position)
         {
-            base.Initialize(texture, position);
+            base.Initialize(texture, scale, position);
             Solid = true;
         }
     }
