@@ -8,3 +8,14 @@ C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\
 C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Release\GameJam2015.csprojResolveAssemblyReference.cache
 C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Release\GameJam2015.exe
 C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Release\GameJam2015.pdb
+C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\SDL.dll
+C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\Content\Sprite.png
+C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\GameJam2015.exe
+C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\GameJam2015.pdb
+C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\Lidgren.Network.dll
+C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\MonoGame.Framework.dll
+C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\OpenTK.dll
+C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\Tao.Sdl.dll
+C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Release\GameJam2015.csprojResolveAssemblyReference.cache
+C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Release\GameJam2015.exe
+C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Release\GameJam2015.pdb
