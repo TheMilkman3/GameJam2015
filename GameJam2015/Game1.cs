@@ -65,26 +65,25 @@ namespace GameJam2015
 
             // Load the player resources
             Animation playerAnimation = new Animation();
-            //Texture2D playerTexture = Content.Load<Texture2D>("BunJumpSheet.png");
-            //playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
-            Texture2D playerTexture = Content.Load<Texture2D>("BunStareSheet.png");
-            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 8, 80, Color.White, 1f, true);
+            Texture2D playerTexture = Content.Load<Texture2D>("BunJumpSheet.png");
+            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
 
-            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X,
+            GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
             player.Initialize(playerAnimation, playerPosition);
-            
+
             // Load the player resources
             //Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
             //player.Initialize(Content.Load<Texture2D>("Sprite.png"), playerPosition);
-
+            
             // Load the bunny resources
             Animation stareAnimation = new Animation();
             Texture2D stareTexture = Content.Load<Texture2D>("BunStareSheet.png");
-            stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
-
+            stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 8, 80, Color.White, 1f, true);
             Animation jumpAnimation = new Animation();
             Texture2D jumpTexture = Content.Load<Texture2D>("BunJumpSheet.png");
-            jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 8, 80, Color.White, 1f, true);
+            jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 4, 80, Color.White, 1f, true);
+
         }
 
         /// <summary>
@@ -160,8 +159,8 @@ namespace GameJam2015
             }
 
             // Make sure that the player does not go out of bounds
-            player.Position.X = MathHelper.Clamp(player.Position.X, player.Width/2, GraphicsDevice.Viewport.Width - player.Width/2);
-            player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height);
+            player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width/2);
+            player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height/2);
         }
 
         /// <summary>

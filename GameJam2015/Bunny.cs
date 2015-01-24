@@ -7,35 +7,35 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2015
 {
-    public class Bunny : Entity
+    public class Bunny : AnimatedEntity
     {
-        public int Width
-        {
-            get { return SpriteAnimation.FrameWidth; }
-        }
-        public int Height
-        {
-            get { return SpriteAnimation.FrameHeight; }
-        }
+        //public int Width
+        //{
+        //    get { return SpriteAnimation.FrameWidth; }
+        //}
+        //public int Height
+        //{
+        //    get { return SpriteAnimation.FrameHeight; }
+        //}
 
-        public void Initialize(Animation anim, Vector2 position)
-        {
-            SpriteAnimation = anim;
-            Position = position;
-            Active = true;
-            Velocity = Vector2.Zero;
-        }
+        //public void Initialize(Animation anim, Vector2 position)
+        //{
+        //    SpriteAnimation = anim;
+        //    Position = position;
+        //    Active = true;
+        //    Velocity = Vector2.Zero;
+        //}
 
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            SpriteAnimation.Draw(spriteBatch);
-        }
+        //public void Draw(SpriteBatch spriteBatch)
+        //{
+        //    SpriteAnimation.Draw(spriteBatch);
+        //}
 
-        // Update the player animation
-        public void Update(GameTime gameTime)
-        {
-            SpriteAnimation.Position = Position;
-            SpriteAnimation.Update(gameTime);
-        }
+        //// Update the player animation
+        //public void Update(GameTime gameTime)
+        //{
+        //    SpriteAnimation.Position = Position;
+        //    SpriteAnimation.Update(gameTime);
+        //}
     }
 }
