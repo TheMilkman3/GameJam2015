@@ -11,6 +11,12 @@ namespace GameJam2015
     {
         public Texture2D Sprite;
         public Vector2 Position;
+        public Vector2 Velocity;
+        public bool Solid
+        {
+            get;
+            set;
+        }
         public int Width
         {
             get { return Sprite.Width; }
@@ -36,6 +42,7 @@ namespace GameJam2015
         /// </summary>
         public void Update()
         {
+            Position += Velocity;
         }
 
         /// <summary>
@@ -43,6 +50,31 @@ namespace GameJam2015
         /// </summary>
         public void Draw()
         {
+        }
+
+        public List<Entity> CheckCollision(List<Entity> entities)
+        {
+            List<Entity> collided_entities = new List<Entity>();
+            foreach(Entity e in entities)
+            {
+                float x1 = Position.X;
+                float y1 = Position.Y;
+                float x2 = e.Position.X;
+                float y2 = e.Position.Y;
+                float height1 = Height;
+                float width1 = Width;
+                float height2 = e.Height;
+                float width2 = e.Width;
+                if (x1 < x2 + width2 &&
+                    x1 + width1 > x2 &&
+                    y1 < y2 + height2 &&
+                    y1 + height1 > y2)
+                {
+                    collided_entities.Add(e);
+                }
+
+            }
+            return collided_entities;
         }
     }
 }
