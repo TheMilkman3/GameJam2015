@@ -90,7 +90,7 @@ namespace GameJam2015
                     collided_entities.Add(e);
                     if (Solid && e.Solid)
                     {
-                        x1 = x2 - width1
+                        
                     }
                 }
 
