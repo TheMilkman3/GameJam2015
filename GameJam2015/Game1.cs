@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.GamerServices;
 
 namespace GameJam2015
 {
+    ///TESTESTESTEST
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -49,6 +50,7 @@ namespace GameJam2015
             player = new Player();
             audio = new AudioManager(Content.RootDirectory);
             collision_tester = new AnimatedEntity();
+            audio = new AudioManager();
             collision_tester.Solid = true;
             entities.Add(player);
             entities.Add(collision_tester);
@@ -66,6 +68,11 @@ namespace GameJam2015
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            // Load audio into the AudioManager
+            audio.LoadAudio(Content.RootDirectory);
+            audio.PlayBackground();
+
             // Load the player resources
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
             player.Initialize(Content.Load<Texture2D>("Sprites\\Sprite.png"), 0.5f, playerPosition);
