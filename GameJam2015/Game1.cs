@@ -78,19 +78,19 @@ namespace GameJam2015
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 player.Velocity = new Vector2(0, -1);
             }
-            if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 player.Velocity = new Vector2(-1, 0);
             }
-            if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 player.Velocity = new Vector2(1, 0);
             }
-            if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 player.Velocity = new Vector2(0, 1);
             }

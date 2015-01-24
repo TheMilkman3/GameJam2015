@@ -48,3 +48,7 @@ Temporary Items
 *.suo
 *.exe
 *.pdb
+GameJam2015/bin/WindowsGL/Debug/GameJam2015.exe
+GameJam2015/bin/WindowsGL/Debug/GameJam2015.pdb
+GameJam2015/obj/x86/Debug/GameJam2015.exe
+GameJam2015/obj/x86/Debug/GameJam2015.pdb
