@@ -20,6 +20,13 @@ namespace GameJam2015
         SpriteBatch spriteBatch;
         Timer aTime;
         Player player;
+        KeyboardState currentKeyboardState;
+        KeyboardState previousKeyboardState;
+        GamePadState currentGamePadState;
+        GamePadState previousGamePadState;
+        MouseState currentMouseState;
+        MouseState previousMouseState;
+        float playerMoveSpeed;
 
         public Game1()
             : base()
@@ -41,6 +48,7 @@ namespace GameJam2015
             aTime = new Timer(1000);
             aTime.Start();
             player = new Player();
+            playerMoveSpeed = 8.0f;
             base.Initialize();
         }
 
@@ -56,8 +64,17 @@ namespace GameJam2015
             // TODO: use this.Content to load your game content here
 
             // Load the player resources
-            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
-            player.Initialize(Content.Load<Texture2D>("Sprite.png"), playerPosition);
+            Animation playerAnimation = new Animation();
+            Texture2D playerTexture = Content.Load<Texture2D>("Sprite.png");
+            playerAnimation.Initialize(playerTexture, Vector2.Zero, 115, 69, 8, 30, Color.White, 1f, true);
+
+            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X,
+            GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+            player.Initialize(playerAnimation, playerPosition);
+            
+            // Load the player resources
+            //Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+            //player.Initialize(Content.Load<Texture2D>("Sprite.png"), playerPosition);
         }
 
         /// <summary>
@@ -79,8 +96,62 @@ namespace GameJam2015
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             // TODO: Add your update logic here
+            // Save the previous state of the keyboard and game pad so we can determine single key/button presses
+            previousGamePadState = currentGamePadState;
+            previousKeyboardState = currentKeyboardState;
+
+            // Read the current state of the keyboard and gamepad and store it
+            currentKeyboardState = Keyboard.GetState();
+            currentGamePadState = GamePad.GetState(PlayerIndex.One);
+
+            //Update the player
+            UpdatePlayer(gameTime);
 
             base.Update(gameTime);
+        }
+
+        private void UpdatePlayer(GameTime gameTime)
+        {
+            player.Update(gameTime);
+
+            //Get Mouse State then Capture the Button type and Respond Button Press
+            Vector2 mousePosition = new Vector2(currentMouseState.X, currentMouseState.Y);
+            if (currentMouseState.LeftButton == ButtonState.Pressed)
+            {
+                Vector2 posDelta = mousePosition - player.Position;
+                posDelta.Normalize();
+                posDelta = posDelta * playerMoveSpeed;
+                player.Position = player.Position + posDelta;
+            }
+
+            // Get Thumbstick Controls
+            player.Position.X += currentGamePadState.ThumbSticks.Left.X * playerMoveSpeed;
+            player.Position.Y -= currentGamePadState.ThumbSticks.Left.Y * playerMoveSpeed;
+
+            // Use the Keyboard / Dpad
+            if (currentKeyboardState.IsKeyDown(Keys.Left) || currentGamePadState.DPad.Left == ButtonState.Pressed)
+            {
+                player.Position.X -= playerMoveSpeed;
+            }
+
+            if (currentKeyboardState.IsKeyDown(Keys.Right) || currentGamePadState.DPad.Right == ButtonState.Pressed)
+            {
+                player.Position.X += playerMoveSpeed;
+            }
+
+            if (currentKeyboardState.IsKeyDown(Keys.Up) || currentGamePadState.DPad.Up == ButtonState.Pressed)
+            {
+                player.Position.Y -= playerMoveSpeed;
+            }
+
+            if (currentKeyboardState.IsKeyDown(Keys.Down) || currentGamePadState.DPad.Down == ButtonState.Pressed)
+            {
+                player.Position.Y += playerMoveSpeed;
+            }
+
+            // Make sure that the player does not go out of bounds
+            player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width);
+            player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height);
         }
 
         /// <summary>

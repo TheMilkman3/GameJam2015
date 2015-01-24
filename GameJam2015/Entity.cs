@@ -9,14 +9,17 @@ namespace GameJam2015
 {
     public class Entity
     {
-        public Texture2D Sprite;
+        public Texture2D Sprite; // Use this for objects without animations (walls, beds, etc.)
+        public Animation SpriteAnimation; // Use this for objects with animations (player, bunnies)
+
         public Vector2 Position;
         public Vector2 Velocity;
-        public bool Solid
-        {
-            get;
-            set;
-        }
+        public bool Active;
+
+        public bool Solid { get; set; }
+
+        // Width and Height get overridden in the Player and Bunny
+        // classes because they use animations instead of sprites
         public int Width
         {
             get { return Sprite.Width; }
@@ -36,6 +39,7 @@ namespace GameJam2015
             Sprite = texture;
             Position = position;
             Velocity = Vector2.Zero;
+            Active = true;
         }
 
         /// <summary>
