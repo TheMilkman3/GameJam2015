@@ -78,8 +78,24 @@ namespace GameJam2015
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            // TODO: Add your update logic here
-
+            if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed)
+            {
+                player.Velocity = new Vector2(0, -1);
+            }
+            if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed)
+            {
+                player.Velocity = new Vector2(-1, 0);
+            }
+            if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed)
+            {
+                player.Velocity = new Vector2(1, 0);
+            }
+            if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed)
+            {
+                player.Velocity = new Vector2(0, 1);
+            }
+            player.Update(new List<Entity>());
+            player.Velocity = Vector2.Zero;
             base.Update(gameTime);
         }
 
