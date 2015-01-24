@@ -41,8 +41,9 @@ namespace GameJam2015
         /// <summary>
         /// Draws entity's sprite.
         /// </summary>
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(Sprite, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }
