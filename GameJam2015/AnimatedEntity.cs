@@ -11,11 +11,11 @@ namespace GameJam2015
     {
         public Animation SpriteAnimation;
 
-        public new int Width
+        public int Width
         {
             get { return SpriteAnimation.FrameWidth; }
         }
-        public new int Height
+        public int Height
         {
             get { return SpriteAnimation.FrameHeight; }
         }

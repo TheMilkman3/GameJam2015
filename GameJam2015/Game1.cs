@@ -22,7 +22,7 @@ namespace GameJam2015
         Timer aTime;
         Player player;
         AudioManager audio;
-        Entity collision_tester;
+        AnimatedEntity collision_tester;
         enum States { MainMenu, Play, PauseMenu, Credits };
         States CurrentState;
         List<Entity> entities = new List<Entity>();
@@ -48,7 +48,7 @@ namespace GameJam2015
             //aTime.Start();
             player = new Player();
             audio = new AudioManager(Content.RootDirectory);
-            collision_tester = new Entity();
+            collision_tester = new AnimatedEntity();
             collision_tester.Solid = true;
             entities.Add(player);
             entities.Add(collision_tester);
@@ -69,7 +69,9 @@ namespace GameJam2015
             // Load the player resources
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
             player.Initialize(Content.Load<Texture2D>("Sprites\\Sprite.png"), 0.5f, playerPosition);
-            collision_tester.Initialize(Content.Load<Texture2D>("Sprites\\Sprite.png"), 0.5f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
+            Animation tester_animation = new Animation();
+            tester_animation.Initialize(Content.Load<Texture2D>("Sprites\\BunJumpSheet.png"), Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
+            collision_tester.Initialize(tester_animation, 0.5f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
         }
 
         /// <summary>
