@@ -20,6 +20,8 @@ namespace GameJam2015
         SpriteBatch spriteBatch;
         Timer aTime;
         Player player;
+        enum States { MainMenu, Play, PauseMenu, Credits };
+        States CurrentState;
 
         public Game1()
             : base()
@@ -41,6 +43,7 @@ namespace GameJam2015
             aTime = new Timer(1000);
             aTime.Start();
             player = new Player();
+            CurrentState = States.Play;
             base.Initialize();
         }
 
@@ -76,27 +79,39 @@ namespace GameJam2015
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-            if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.W))
+            if (CurrentState == States.Play)
             {
-                player.Velocity = new Vector2(0, -1);
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    Exit();
+                if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.W))
+                {
+                    player.Velocity = new Vector2(0, -1);
+                }
+                if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    player.Velocity = new Vector2(-1, 0);
+                }
+                if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+                    player.Velocity = new Vector2(1, 0);
+                }
+                if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    player.Velocity = new Vector2(0, 1);
+                }
+                player.Update(new List<Entity>());
+                player.Velocity = Vector2.Zero;
+                base.Update(gameTime);
             }
-            if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.A))
+            else if (CurrentState == States.MainMenu)
             {
-                player.Velocity = new Vector2(-1, 0);
             }
-            if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D))
+            else if (CurrentState == States.PauseMenu)
             {
-                player.Velocity = new Vector2(1, 0);
             }
-            if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+            else if (CurrentState == States.Credits)
             {
-                player.Velocity = new Vector2(0, 1);
             }
-            player.Update(new List<Entity>());
-            player.Velocity = Vector2.Zero;
-            base.Update(gameTime);
         }
 
         /// <summary>
