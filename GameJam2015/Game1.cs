@@ -20,6 +20,7 @@ namespace GameJam2015
         SpriteBatch spriteBatch;
         Timer aTime;
         Player player;
+        AudioManager audio;
 
         public Game1()
             : base()
@@ -39,8 +40,9 @@ namespace GameJam2015
             // TODO: Add your initialization logic here
 
             aTime = new Timer(1000);
-            aTime.Start();
+            //aTime.Start();
             player = new Player();
+            audio = new AudioManager(Content.RootDirectory);
             base.Initialize();
         }
 
