@@ -35,8 +35,9 @@ namespace GameJam2015
         /// Per frame update of entity.
         /// </summary>
         /// <param name="entities">List of entities in room</param>
-        public void Update(GameTime gameTime)
+        public new void Update(List<Entity> entities, GameTime gameTime)
         {
+            base.Update(entities, gameTime);
             SpriteAnimation.Position = Position;
             SpriteAnimation.Update(gameTime);
         }

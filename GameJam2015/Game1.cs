@@ -108,7 +108,7 @@ namespace GameJam2015
                 {
                     player.Velocity = new Vector2(0, PLAYER_SPEED);
                 }
-                player.Update(entities);
+                player.Update(entities, gameTime);
                 player.Velocity = Vector2.Zero;
                 base.Update(gameTime);
             }

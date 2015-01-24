@@ -45,7 +45,7 @@ namespace GameJam2015
         /// Per frame update of entity.
         /// </summary>
         /// <param name="entities">List of entities in room</param>
-        public void Update(List<Entity>  entities)
+        public void Update(List<Entity>  entities, GameTime gameTime)
         {
             Position += Velocity;
             List<Entity> collided_entities = CheckCollision(entities);
