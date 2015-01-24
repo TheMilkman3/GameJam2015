@@ -18,6 +18,7 @@ namespace GameJam2015
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Timer aTime;
 
         public Game1()
             : base()
@@ -36,6 +37,8 @@ namespace GameJam2015
         {
             // TODO: Add your initialization logic here
 
+            aTime = new Timer(1000);
+            aTime.Start();
             base.Initialize();
         }
 
@@ -69,7 +72,6 @@ namespace GameJam2015
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
             // TODO: Add your update logic here
 
             base.Update(gameTime);
