@@ -68,8 +68,27 @@ namespace GameJam2015
 
             // TODO: use this.Content to load your game content here
             // Load the player resources
-            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
-            player.Initialize(Content.Load<Texture2D>("Sprites\\Sprite.png"), 0.5f, playerPosition);
+            Animation playerAnimation = new Animation();
+            Texture2D playerTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
+            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
+
+            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X,
+            GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+            player.Initialize(playerAnimation, 1, playerPosition);
+
+            // Load the bunny resources
+            Animation stareAnimation = new Animation();
+            Texture2D stareTexture = Content.Load<Texture2D>("Sprites/BunStareSheet.png");
+            stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 8, 80, Color.White, 1f, true);
+
+            Animation jumpAnimation = new Animation();
+            Texture2D jumpTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
+            jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
+
+            // Load the player resources
+            //Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+            //player.Initialize(Content.Load<Texture2D>("Sprite.png"), playerPosition);
+
             collision_tester.Initialize(Content.Load<Texture2D>("Sprites\\Sprite.png"), 0.5f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
         }
 
@@ -111,6 +130,11 @@ namespace GameJam2015
                 }
                 player.Update(entities, gameTime);
                 player.Velocity = Vector2.Zero;
+
+                // Make sure that the player does not go out of bounds
+                player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width);
+                player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height);
+
                 base.Update(gameTime);
             }
             else if (CurrentState == States.MainMenu)

@@ -25,9 +25,10 @@ namespace GameJam2015
         /// </summary>
         /// <param name="texture">Entity's 2d sprite.</param>
         /// <param name="position">X,Y coordinates of the entity on screen.</param>
-        public void Initialize(Animation anim, float scale, Vector2 position)
+        public new void Initialize(Animation anim, float scale, Vector2 position)
         {
             base.Initialize(null, scale, position);
+            Solid = true;
             SpriteAnimation = anim;
         }
 

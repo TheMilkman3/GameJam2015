@@ -7,12 +7,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2015
 {
-    public class Player : Entity
+    public class Player : AnimatedEntity
     {
-        public new void Initialize(Texture2D texture, float scale, Vector2 position)
-        {
-            base.Initialize(texture, scale, position);
-            Solid = true;
-        }
+        //public new void Initialize(Texture2D texture, float scale, Vector2 position)
+        //{
+        //    base.Initialize(texture, scale, position);
+        //    Solid = true;
+        //}
     }
 }
