@@ -43,8 +43,6 @@ namespace GameJam2015
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             aTime = new Timer(1000);
             //aTime.Start();
             player = new Player();
@@ -74,8 +72,17 @@ namespace GameJam2015
             audio.PlayBackground();
 
             // Load the player resources
-            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
-            player.Initialize(Content.Load<Texture2D>("Sprites\\Sprite.png"), 0.5f, playerPosition);
+
+            // Load the player resources
+            Animation playerAnimation = new Animation();
+            Texture2D playerTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
+            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 4, 80, Color.White, 1f, true);
+
+            Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X,
+            GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+            player.Initialize(playerAnimation, 1, playerPosition);
+
+
             Animation tester_animation = new Animation();
             tester_animation.Initialize(Content.Load<Texture2D>("Sprites\\BunJumpSheet.png"), Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
             collision_tester.Initialize(tester_animation, 1f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
