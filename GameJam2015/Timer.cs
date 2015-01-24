@@ -10,12 +10,15 @@ namespace GameJam2015
     public class Timer
     {
         public System.Timers.Timer aTimer;
-        public static DateTime startTime;
+        public static DateTime startTime, previousTime;
+        public static double totalTime;
+        public static int eventsFired = 0;
 
         public Timer()
         {
             aTimer = new System.Timers.Timer();
             startTime = DateTime.Now;
+            previousTime = DateTime.Now;
 
             aTimer.Elapsed += Tick;
         }
@@ -24,6 +27,7 @@ namespace GameJam2015
         {
             aTimer = new System.Timers.Timer(milli);
             startTime = DateTime.Now;
+            previousTime = DateTime.Now;
 
             aTimer.Elapsed += Tick;
         }
@@ -33,11 +37,19 @@ namespace GameJam2015
             aTimer.Start();
         }
 
+        public Double ElapsedTime()
+        {
+            return totalTime;
+        }
+
         public static void Tick(Object sender, ElapsedEventArgs e)
         {
-            Console.WriteLine("Time event fired!! Interval: {0}", (e.SignalTime - startTime).TotalSeconds);
+            Console.WriteLine("Time event fired!! Interval: {0}", (e.SignalTime - previousTime).TotalSeconds);
 
-            startTime = e.SignalTime;
+            previousTime = e.SignalTime;
+            totalTime = (e.SignalTime - startTime).TotalSeconds;
+
+            Console.WriteLine("Elapsed time: {0}", totalTime);
         }
     }
 }
