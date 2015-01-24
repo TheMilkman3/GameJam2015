@@ -48,7 +48,7 @@ namespace GameJam2015
             aTime = new Timer(1000);
             //aTime.Start();
             player = new Player();
-            audio = new AudioManager(Content.RootDirectory);
+            audio = new AudioManager();
             collision_tester = new AnimatedEntity();
             audio = new AudioManager();
             collision_tester.Solid = true;
@@ -78,7 +78,7 @@ namespace GameJam2015
             player.Initialize(Content.Load<Texture2D>("Sprites\\Sprite.png"), 0.5f, playerPosition);
             Animation tester_animation = new Animation();
             tester_animation.Initialize(Content.Load<Texture2D>("Sprites\\BunJumpSheet.png"), Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
-            collision_tester.Initialize(tester_animation, 0.5f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
+            collision_tester.Initialize(tester_animation, 1f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
         }
 
         /// <summary>
@@ -118,6 +118,7 @@ namespace GameJam2015
                     player.Velocity = new Vector2(0, PLAYER_SPEED);
                 }
                 player.Update(entities, gameTime);
+                collision_tester.Update(entities, gameTime);
                 player.Velocity = Vector2.Zero;
                 base.Update(gameTime);
             }
