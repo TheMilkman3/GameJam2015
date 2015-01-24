@@ -1,0 +1,10 @@
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\SDL.dll
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\GameJam2015.exe
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\GameJam2015.pdb
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\Lidgren.Network.dll
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\MonoGame.Framework.dll
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\OpenTK.dll
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\Tao.Sdl.dll
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Release\GameJam2015.csprojResolveAssemblyReference.cache
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Release\GameJam2015.exe
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Release\GameJam2015.pdb
