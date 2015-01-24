@@ -12,14 +12,10 @@ namespace GameJam2015
     {
         public SoundPlayer player;
         public string stream, directory;
-        public Stream s;
 
-        public AudioManager(string path)
+        public AudioManager()
         {
-            stream = path + "\\Audio";
-            directory = Path.GetFullPath(stream);
-
-            if (!Directory.Exists(directory))
+            /*if (!Directory.Exists(directory))
             {
                 Console.WriteLine("does not exist");
             }
@@ -27,32 +23,47 @@ namespace GameJam2015
             {
                 Console.WriteLine("Audio directory: {0}", directory);
             
-            }
+            }*/
             player = new SoundPlayer();
-            LoadAudio();
-        }
-
-        private void LoadAudioComplete()
-        {
         }
 
         private void PlayAudioFromResource(Object sender, EventArgs e)
         {
         }
 
-        private void LoadAudio()
+        public void PlayBackground()
         {
+            try
+            {
+                Console.WriteLine("play music");
+                player.Play();
+            }
+            catch
+            {
+                Console.WriteLine("Error playing music");
+            }
+
+        }
+
+        public void LoadAudio(string path)
+        {
+            stream = path + "\\Audio";
+            directory = Path.GetFullPath(stream);
+            Console.WriteLine(directory);
+
             foreach (string f in Directory.EnumerateFiles(directory))
             {
                 try
                 {
-
+                    player.SoundLocation = f;
                     player.LoadAsync();
                     Console.WriteLine("Audio load for {0} was successful.", f);
                 }
-                catch
+                catch (Exception ex)
                 {
                     Console.WriteLine("Error loading");
+                    Console.WriteLine(ex.Message);
+                    
                 }
             }
         }
