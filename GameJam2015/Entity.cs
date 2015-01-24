@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam2015
 {
-    class Entity
+    public class Entity
     {
         public Texture2D Sprite;
         public Vector2 Position;
@@ -35,14 +35,24 @@ namespace GameJam2015
         {
             Sprite = texture;
             Position = position;
+            Velocity = Vector2.Zero;
         }
 
         /// <summary>
         /// Per frame update of entity.
         /// </summary>
-        public void Update()
+        /// <param name="entities">List of entities in room</param>
+        public void Update(List<Entity>  entities)
         {
             Position += Velocity;
+            List<Entity> collided_entities = CheckCollision(entities);
+            foreach (Entity e in collided_entities)
+            {
+                if (Solid && e.Solid)
+                {
+                    Position -= Velocity;
+                }
+            }
         }
 
         /// <summary>
@@ -53,6 +63,11 @@ namespace GameJam2015
             spriteBatch.Draw(Sprite, Position, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
 
+        /// <summary>
+        /// Returns a list of entities the current entities collides with.
+        /// </summary>
+        /// <param name="entities">List of entities in the room</param>
+        /// <returns></returns>
         public List<Entity> CheckCollision(List<Entity> entities)
         {
             List<Entity> collided_entities = new List<Entity>();

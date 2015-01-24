@@ -43,3 +43,6 @@ Temporary Items
 .apdisk
 
 *.cache
+*.csproj
+*.manifest
+*.suo

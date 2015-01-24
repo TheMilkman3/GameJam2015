@@ -18,11 +18,8 @@ namespace GameJam2015
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-<<<<<<< HEAD
         Timer aTime;
-=======
         Player player;
->>>>>>> 10161469a578f0871832304539b7cfaf09d90779
 
         public Game1()
             : base()
@@ -40,13 +37,10 @@ namespace GameJam2015
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-<<<<<<< HEAD
 
             aTime = new Timer(1000);
             aTime.Start();
-=======
             player = new Player();
->>>>>>> 10161469a578f0871832304539b7cfaf09d90779
             base.Initialize();
         }
 
