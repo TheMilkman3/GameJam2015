@@ -16,3 +16,5 @@ C:\Users\Keith\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin
 C:\Users\Keith\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Debug\OpenTK.dll
 C:\Users\Keith\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Debug\Tao.Sdl.dll
 C:\Users\Keith\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Debug\GameJam2015.csprojResolveAssemblyReference.cache
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Debug\GameJam2015.exe
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Debug\GameJam2015.pdb
