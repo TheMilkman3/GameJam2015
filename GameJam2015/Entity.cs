@@ -84,9 +84,14 @@ namespace GameJam2015
                 if (x1 < x2 + width2 &&
                     x1 + width1 > x2 &&
                     y1 < y2 + height2 &&
-                    y1 + height1 > y2)
+                    y1 + height1 > y2 &&
+                    this != e)
                 {
                     collided_entities.Add(e);
+                    if (Solid && e.Solid)
+                    {
+                        x1 = x2 - width1
+                    }
                 }
 
             }

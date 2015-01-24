@@ -16,12 +16,15 @@ namespace GameJam2015
     /// </summary>
     public class Game1 : Game
     {
+        readonly int PLAYER_SPEED = 55;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Timer aTime;
         Player player;
+        Entity collision_tester;
         enum States { MainMenu, Play, PauseMenu, Credits };
         States CurrentState;
+        List<Entity> entities = new List<Entity>();
 
         public Game1()
             : base()
@@ -43,6 +46,10 @@ namespace GameJam2015
             aTime = new Timer(1000);
             aTime.Start();
             player = new Player();
+            collision_tester = new Entity();
+            collision_tester.Solid = true;
+            entities.Add(player);
+            entities.Add(collision_tester);
             CurrentState = States.Play;
             base.Initialize();
         }
@@ -61,6 +68,7 @@ namespace GameJam2015
             // Load the player resources
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
             player.Initialize(Content.Load<Texture2D>("Sprite.png"), playerPosition);
+            collision_tester.Initialize(Content.Load<Texture2D>("Sprite.png"), new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
         }
 
         /// <summary>
@@ -85,21 +93,21 @@ namespace GameJam2015
                     Exit();
                 if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.W))
                 {
-                    player.Velocity = new Vector2(0, -1);
+                    player.Velocity = new Vector2(0, -PLAYER_SPEED);
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.A))
                 {
-                    player.Velocity = new Vector2(-1, 0);
+                    player.Velocity = new Vector2(-PLAYER_SPEED, 0);
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D))
                 {
-                    player.Velocity = new Vector2(1, 0);
+                    player.Velocity = new Vector2(PLAYER_SPEED, 0);
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
                 {
-                    player.Velocity = new Vector2(0, 1);
+                    player.Velocity = new Vector2(0, PLAYER_SPEED);
                 }
-                player.Update(new List<Entity>());
+                player.Update(entities);
                 player.Velocity = Vector2.Zero;
                 base.Update(gameTime);
             }
@@ -128,6 +136,7 @@ namespace GameJam2015
 
             // Draw the Player
             player.Draw(spriteBatch);
+            collision_tester.Draw(spriteBatch);
 
             // Stop drawing
             spriteBatch.End();
