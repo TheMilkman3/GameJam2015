@@ -11,17 +11,24 @@ namespace GameJam2015
     {
         public Texture2D Sprite;
         public Vector2 Position;
-        public Vector2 Size
+        public int Width
         {
-            get;
-            set;
+            get { return Sprite.Width; }
+        }
+        public int Height
+        {
+            get { return Sprite.Height; }
         }
 
         /// <summary>
-        /// Performs initialization on entity.
+        /// Sets sprite and position of the entity.
         /// </summary>
-        public void Initialize()
+        /// <param name="texture">Entity's 2d sprite.</param>
+        /// <param name="position">X,Y coordinates of the entity on screen.</param>
+        public void Initialize(Texture2D texture, Vector2 position)
         {
+            Sprite = texture;
+            Position = position;
         }
 
         /// <summary>
