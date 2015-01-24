@@ -66,8 +66,8 @@ namespace GameJam2015
             // TODO: use this.Content to load your game content here
             // Load the player resources
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
-            player.Initialize(Content.Load<Texture2D>("Sprite.png"), 0.5f, playerPosition);
-            collision_tester.Initialize(Content.Load<Texture2D>("Sprite.png"), 0.5f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
+            player.Initialize(Content.Load<Texture2D>("Sprites\\Sprite.png"), 0.5f, playerPosition);
+            collision_tester.Initialize(Content.Load<Texture2D>("Sprites\\Sprite.png"), 0.5f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
         }
 
         /// <summary>
