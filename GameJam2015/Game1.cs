@@ -42,6 +42,7 @@ namespace GameJam2015
             halfShelf7, halfShelf8, table;
         Texture2D instructions1Texture, instructions2Texture, pauseTexture, endTexture;
         Texture2D stareTexture;
+        int Invincibility = 2000;
 
         public Game1()
             : base()
@@ -254,6 +255,10 @@ namespace GameJam2015
         {
             if (CurrentState == States.Play)
             {
+                if (Invincibility >= 0)
+                {
+                    Invincibility -= gameTime.ElapsedGameTime.Milliseconds;
+                }
                 InputPlusMovement();
                 if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
                 {
@@ -316,12 +321,18 @@ namespace GameJam2015
 
                 player.Velocity = Vector2.Zero;
 
-                if (player.EndGame)
+                if (player.EndGame && Invincibility > 0)
+                {
+                    player.EndGame = false;
+                }
+                else if (player.EndGame)
                 {
                     CurrentState = States.Credits;
                 }
-                if (player.Reset)
+
+                else if (player.Reset)
                 {
+                    Invincibility = 2000;
                     player.Position = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + 50, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
                     playerDirection = Direction.Still;
                     goalBunny.Position = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8 / 10));
@@ -529,7 +540,14 @@ namespace GameJam2015
             if (CurrentState == States.Play)
             {
                 room.Draw(spriteBatch);
-
+                if (Invincibility > 0)
+                {
+                    player.SpriteAnimation.color = Color.White * 0.5f;
+                }
+                else
+                {
+                    player.SpriteAnimation.color = Color.White;
+                }
                 foreach (Entity e in room.roomItems)
                 {
                     e.Draw(spriteBatch);

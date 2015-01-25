@@ -24,7 +24,7 @@ namespace GameJam2015
         // The index of the current frame we are displaying
         int currentFrame;
         // The color of the frame we will be displaying
-        Color color;
+        public Color color;
         // The area of the image strip we want to display
         Rectangle sourceRect = new Rectangle();
         // The area where we want to display the image strip in the game
