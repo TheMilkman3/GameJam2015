@@ -26,6 +26,8 @@ namespace GameJam2015
             if (timeUntilChange <= 0)
             {
                 timeUntilChange = CHANGE_TIME;
+                Velocity = new Vector2(BUNNY_SPEED, 0);
+                
                 if (AIState == 10)
                 {
                     AIState = 0;
@@ -34,6 +36,7 @@ namespace GameJam2015
                 {
                     AIState++;
                 }
+
                 switch (AIState)
                 {
                     case 0:

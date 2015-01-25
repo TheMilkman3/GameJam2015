@@ -22,6 +22,12 @@ namespace GameJam2015
 
     public class ControllerInput : GameComponent
     {
+
+        private PlayerIndex mPlayer;
+        private ControllerListener mListener;
+        private GamePadState mState, newstate;
+        private Game1 game;
+
         /// <summary>
         /// Creates a ControllerInput for player 1.
         /// </summary>
@@ -40,13 +46,15 @@ namespace GameJam2015
         /// </summary>
         /// <param name="g">Game class for the controller input.</param>
         /// <param name="i">Player index that this controller listener is for.</param>
-        public ControllerInput(Game g, PlayerIndex i)
+        public ControllerInput(Game1 g, PlayerIndex i)
             : base(g)
         {
             mPlayer = i;
             mState = GamePad.GetState(i);
             Enabled = true;
             this.UpdateOrder = 0;
+            newstate = GamePad.GetState(mPlayer);
+            game = g;
         }
 
 
@@ -67,18 +75,23 @@ namespace GameJam2015
 
         public override void Update(GameTime gameTime)
         {
-            GamePadState newstate = GamePad.GetState(mPlayer);
-
+            newstate = GamePad.GetState(mPlayer);
             // don't do anything if the controller is not connected
             if (!newstate.IsConnected)
                 return;
 
             // only check the state if the packet number has changed
-            if (mState.PacketNumber == newstate.PacketNumber)
+            /*if (mState.PacketNumber == newstate.PacketNumber)
+            {
+                //Console.WriteLine("is it registering?");
                 return;
+            }*/
+            //Console.WriteLine(mState.PacketNumber);
 
-            if (newstate.ThumbSticks.Left != mState.ThumbSticks.Left)
+            /*if (newstate.ThumbSticks.Left != mState.ThumbSticks.Left)
+            {
                 NotifyLeftThumbstickMoved(newstate.ThumbSticks.Left, newstate.Buttons.LeftStick);
+            }
 
             if (newstate.ThumbSticks.Right != mState.ThumbSticks.Right)
                 NotifyRightThumbstickMoved(newstate.ThumbSticks.Right, newstate.Buttons.RightStick);
@@ -92,10 +105,11 @@ namespace GameJam2015
 
             if (newstate.DPad.Down != mState.DPad.Down)
             {
-                if (newstate.DPad.Down == ButtonState.Pressed)
+                if (newstate.DPad.Down == ButtonState.Pressed && mState.DPad.Down == ButtonState.Released)
                     NotifyButtonDown(Buttons.DPadDown);
                 else
                 {
+                    //Console.WriteLine("Button fired!!");
                     NotifyButtonUp(Buttons.DPadDown);
                     NotifyButtonPressed(Buttons.DPadDown);
                 }
@@ -131,7 +145,7 @@ namespace GameJam2015
                     NotifyButtonUp(Buttons.DPadRight);
                     NotifyButtonPressed(Buttons.DPadRight);
                 }
-            }
+            }*/
 
             if (newstate.Buttons.A != mState.Buttons.A)
             {
@@ -177,7 +191,7 @@ namespace GameJam2015
                 }
             }
 
-            if (newstate.Buttons.LeftShoulder != mState.Buttons.LeftShoulder)
+            /*if (newstate.Buttons.LeftShoulder != mState.Buttons.LeftShoulder)
             {
                 if (newstate.Buttons.LeftShoulder == ButtonState.Pressed)
                     NotifyButtonDown(Buttons.LeftShoulder);
@@ -240,7 +254,7 @@ namespace GameJam2015
                     NotifyButtonUp(Buttons.Back);
                     NotifyButtonPressed(Buttons.Back);
                 }
-            }
+            }*/
 
             // update the state
             mState = newstate;
@@ -248,42 +262,56 @@ namespace GameJam2015
 
         protected void NotifyButtonDown(Buttons button)
         {
-            mListener.ButtonDown(button);
+            switch (button)
+            {
+                case Buttons.A:
+                    Console.WriteLine("A button");
+                    break;
+                case Buttons.B:
+                    Console.WriteLine("B button");
+                    break;
+                case Buttons.X:
+                    Console.WriteLine("X button");
+                    break;
+                case Buttons.Y:
+                    Console.WriteLine("Y button");
+                    break;
+                default:
+                    break;
+            }
+            Console.WriteLine("Pressed!");
+            //mListener.ButtonDown(button);
         }
 
         protected void NotifyButtonUp(Buttons button)
         {
-            mListener.ButtonUp(button);
+            //mListener.ButtonUp(button);
         }
 
         protected void NotifyButtonPressed(Buttons button)
         {
-            mListener.ButtonPress(button);
+            //mListener.ButtonPress(button);
         }
 
         protected void NotifyLeftThumbstickMoved(Vector2 pos, ButtonState bs)
         {
-            mListener.LeftThumbstickMove(pos, bs);
+            //mListener.LeftThumbstickMove(pos, bs);
         }
 
         protected void NotifyRightThumbstickMoved(Vector2 pos, ButtonState bs)
         {
-            mListener.RightThumbstickMove(pos, bs);
+            //mListener.RightThumbstickMove(pos, bs);
         }
 
         protected void NotifyLeftTrigger(float pos)
         {
-            mListener.LeftTrigger(pos);
+            //mListener.LeftTrigger(pos);
         }
 
         protected void NotifyRightTrigger(float pos)
         {
-            mListener.RightTrigger(pos);
+            //mListener.RightTrigger(pos);
         }
-
-        private PlayerIndex mPlayer;
-        private ControllerListener mListener;
-        private GamePadState mState;
     }
 
     public interface KeyListener
