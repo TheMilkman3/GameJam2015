@@ -24,6 +24,7 @@ namespace GameJam2015
         Player player;
         AudioManager audio;
         enum States { MainMenu, Play, PauseMenu, Credits };
+        enum Direction { Up, Down, Left, Right, Still };
         States CurrentState;
         List<Entity> entities = new List<Entity>();
 
@@ -155,5 +156,6 @@ namespace GameJam2015
 
             base.Draw(gameTime);
         }
+
     }
 }
