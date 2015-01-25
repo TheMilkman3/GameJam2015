@@ -22,7 +22,7 @@ namespace GameJam2015
         SpriteBatch spriteBatch;
         Timer aTime;
         Player player;
-        Animation playerIdleAnimation, playerUpAnimation, playerDownAnimation, playerLeftAnimation, playerRightAnimation;
+        Animation playerIdleAnimation, playerUpAnimation, playerDownAnimation, playerRightAnimation, stareAnimation;
         GoalBunny goalBunny;
         AudioManager audio;
         enum States { MainMenu, Instructions1, Instructions2, Play, PauseMenu, Credits };
@@ -36,11 +36,13 @@ namespace GameJam2015
         SoundEffectInstance bunnyMeltInstance;
         DeadlyDoodad deadlyDoodad;
         Entity menuStart, menuInstructions1, menuInstructions2, menuPause, cursor;
+        AnimatedEntity stareBunny;
         Room room;
         Obstacles fullShelf1, fullShelf2, fullShelf3, fullShelf4, fullShelf5, fullShelf6, fullShelf7,
             fullShelf8, fullShelf9, fullShelf10, halfShelf1, halfShelf2, halfShelf3, halfShelf4, halfShelf5, halfShelf6,
             halfShelf7, halfShelf8, table;
         Texture2D instructions1Texture, instructions2Texture, pauseTexture, endTexture;
+        Texture2D stareTexture;
 
         public Game1()
             : base()
@@ -65,8 +67,9 @@ namespace GameJam2015
             playerIdleAnimation = new Animation();
             playerUpAnimation = new Animation();
             playerDownAnimation = new Animation();
-            playerLeftAnimation = new Animation();
             playerRightAnimation = new Animation();
+            stareAnimation = new Animation();
+            stareBunny = new AnimatedEntity();
 
             goalBunny = new GoalBunny();
             deadlyDoodad = new DeadlyDoodad();
@@ -154,8 +157,6 @@ namespace GameJam2015
             //bunnyMelt = Content.Load<SoundEffect>(@"Audio\\03_Child_Bride.wav");
             //bunnyMeltInstance = bunnyMelt.CreateInstance();
 
-            // TODO: use this.Content to load your game content here
-            // Load the player resources
             Texture2D playerIdleTexture = Content.Load<Texture2D>("Sprites/HeroIdleSheet.png");
             playerIdleAnimation.Initialize(playerIdleTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, .2f, true);
 
@@ -178,16 +179,12 @@ namespace GameJam2015
             player.Initialize(playerIdleAnimation, 1, playerPosition, this);
 
             // Load the bunny resources
-            Animation stareAnimation = new Animation();
-            Texture2D stareTexture = Content.Load<Texture2D>("Sprites/BunStareSheet.png");
-            stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 8, 80, Color.White, 1f, true);
-
             Animation jumpAnimation = new Animation();
             Texture2D jumpTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
             jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 4, 80, Color.White, .25f, true);
 
-            Vector2 bunnyPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width/2,
-            GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8/10));
+            Vector2 bunnyPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2,
+            GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8 / 10));
             goalBunny.Initialize(jumpAnimation, 1f, bunnyPosition);
 
             Texture2D tableTexture = Content.Load<Texture2D>("Sprites/Table.png");
@@ -235,7 +232,10 @@ namespace GameJam2015
             instructions1Texture = Content.Load<Texture2D>("Sprites/Instruction Screen.png");
             instructions2Texture = Content.Load<Texture2D>("Sprites/Instructions 2.png");
             pauseTexture = Content.Load<Texture2D>("Sprites/Pause Screen.png");
+            endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
 
+            stareTexture = Content.Load<Texture2D>("Sprites/BunStareSheet.png");
+            stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 8, 90, Color.White, 1.5f, true);
             endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
 
             Texture2D doodad_texture = Content.Load<Texture2D>("Sprites/Sprite.png");
@@ -347,7 +347,10 @@ namespace GameJam2015
                 Vector2 exitPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + 815, GraphicsDevice.Viewport.TitleSafeArea.Y + 405);
                 menuStart.Initialize(Content.Load<Texture2D>("Sprites/Title Screen.png"), 1f, pos);
 
-                if(menuOption == MenuSelect.Start)
+                Vector2 starePosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + 90, GraphicsDevice.Viewport.TitleSafeArea.Y + 250);
+                stareBunny.Initialize(stareAnimation, 1f, starePosition);
+
+                if (menuOption == MenuSelect.Start)
                 {
                     cursor.Initialize(Content.Load<Texture2D>("Sprites/Cursor.png"), 1f, startPosition);
                 }
@@ -406,6 +409,8 @@ namespace GameJam2015
                 }
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                     Exit();
+                stareAnimation.Update(gameTime);
+                //stareBunny.Update(null, gameTime);
                 base.Update(gameTime);
             }
             else if (CurrentState == States.Instructions1)
@@ -533,18 +538,17 @@ namespace GameJam2015
             {
                 menuStart.Draw(spriteBatch);
                 cursor.Draw(spriteBatch);
-                //menuExit.Draw(spriteBatch);
+                stareBunny.SpriteAnimation = stareAnimation;
+                stareBunny.Draw(spriteBatch);
             }
             else if (CurrentState == States.Instructions1)
             {
                 spriteBatch.Draw(instructions1Texture, endTexture.Bounds, Color.White);
-                //menuInstructions1.Draw(spriteBatch);
                 cursor.Draw(spriteBatch);
             }
             else if (CurrentState == States.Instructions2)
             {
                 spriteBatch.Draw(instructions2Texture, endTexture.Bounds, Color.White);
-                //menuInstructions2.Draw(spriteBatch);
                 cursor.Draw(spriteBatch);
             }
             else if (CurrentState == States.PauseMenu)
