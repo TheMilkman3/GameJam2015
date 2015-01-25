@@ -32,8 +32,9 @@ namespace GameJam2015
         List<Entity> entities = new List<Entity>();
         SoundEffect bunnyMelt;
         SoundEffectInstance bunnyMeltInstance;
-        Entity menuStart;
-        Entity menuExit;
+        Entity menuStart, menuExit;
+        Room room;
+        Obstacles desk, table;
 
         public Game1()
             : base()
@@ -59,8 +60,11 @@ namespace GameJam2015
             entities.Add(goalBunny);
             entities.Add(player);
             audio = new AudioManager(Content.RootDirectory);
-            CurrentState = States.MainMenu;
+            CurrentState = States.Play;
             menuOption = MenuSelect.Start;
+            room = new Room();
+            table = new Obstacles();
+            desk = new Obstacles();
             base.Initialize();
         }
 
@@ -77,19 +81,22 @@ namespace GameJam2015
             bunnyMelt = Content.Load<SoundEffect>(@"Audio\\03_Child_Bride.wav");
             bunnyMeltInstance = bunnyMelt.CreateInstance();
 
-
+            //Initialize the room where all entities reside
+            Texture2D roomTexture = Content.Load<Texture2D>("Sprites/Test Background.png");
+            //Texture2D roomTexture = Content.Load<Texture2D>("Sprites/Title Screen.png");
+            room.Initialize(roomTexture, .25f, Vector2.Zero);
 
             // TODO: use this.Content to load your game content here
             // Load the player resources
             Animation playerAnimation = new Animation();
             Texture2D playerTexture = Content.Load<Texture2D>("Sprites/HeroIdleSheet.png");
-            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, 1f, true);
+            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, .25f, true);
 
             // Load audio into the AudioManager. Plays the background music upon loading.
             audio.LoadAudio();
             audio.Play("fuq");
-            // Load the player resources
 
+            // Load the player resources
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X,
             GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
             player.Initialize(playerAnimation, 1, playerPosition);
@@ -101,11 +108,15 @@ namespace GameJam2015
 
             Animation jumpAnimation = new Animation();
             Texture2D jumpTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
-            jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 4, 80, Color.White, 1f, true);
+            jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 4, 80, Color.White, .25f, true);
 
             Vector2 bunnyPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width/2,
             GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8/10));
             goalBunny.Initialize(jumpAnimation, 1f, bunnyPosition);
+
+
+
+            room.addItem(entities);
         }
 
         /// <summary>
@@ -170,23 +181,17 @@ namespace GameJam2015
                     CurrentState = States.PauseMenu;
                     Thread.Sleep(100);
                 }
-                foreach (Entity e in entities)
+                foreach (Entity e in room.roomItems)
                 {
                     //player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width());
                     //player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height());
 
-                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
-                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
+                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, room.Width() - e.Width());
+                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, room.Height() - e.Height());
                     e.Update(entities, gameTime);
                 }
 
                 player.Velocity = Vector2.Zero;
-
-                foreach (Entity e in entities)
-                {
-                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
-                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
-                }
 
                 base.Update(gameTime);
             }
@@ -201,13 +206,13 @@ namespace GameJam2015
                 // Make sure to not call update methods or game time here
                 if(menuOption == MenuSelect.Start)
                 {
-                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
-                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, exitPosition);
+                    //menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
+                    //menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, exitPosition);
                 }
                 else
                 {
-                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, menuPosition);
-                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
+                    //menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, menuPosition);
+                    //menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
                 {
@@ -263,8 +268,12 @@ namespace GameJam2015
             // Draw the Player
             if (CurrentState == States.Play)
             {
-                player.Draw(spriteBatch);
-                goalBunny.Draw(spriteBatch);
+                room.Draw(spriteBatch);
+
+                foreach (Entity e in room.roomItems)
+                {
+                    e.Draw(spriteBatch);
+                }
             }
             else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
             {
