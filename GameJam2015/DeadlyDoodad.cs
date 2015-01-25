@@ -13,7 +13,7 @@ namespace GameJam2015
 {
     class DeadlyDoodad : Entity
     {
-        static readonly int CHANGE_TIME = 500;
+        static readonly int CHANGE_TIME = 1000;
         static readonly int DOODAD_SPEED = 2;
         int timeUntilChange = CHANGE_TIME;
         int AIState = 0;
@@ -29,6 +29,18 @@ namespace GameJam2015
             timeUntilChange -= gameTime.ElapsedGameTime.Milliseconds;
             if (timeUntilChange <= 0)
             {
+                switch (AIState)
+                {
+                    case 0:
+                        RotateCW();
+                        RotateCW();
+                        Console.WriteLine("X: " + Velocity.X + ", Y: " + Velocity.Y);
+                        break;
+                    case 1:
+                        RotateCW();
+                        Console.WriteLine("X: " + Velocity.X + ", Y: " + Velocity.Y);
+                        break;
+                }
                 timeUntilChange = CHANGE_TIME;
                 if (AIState == 1)
                 {
@@ -37,16 +49,6 @@ namespace GameJam2015
                 else
                 {
                     AIState++;
-                }
-                switch (AIState)
-                {
-                    case 0:
-                        RotateCW();
-                        RotateCW();
-                        break;
-                    case 1:
-                        RotateCCW();
-                        break;
                 }
             }
             return base.Update(entities, gameTime);

@@ -34,6 +34,7 @@ namespace GameJam2015
         List<Entity> entities = new List<Entity>();
         SoundEffect bunnyMelt;
         SoundEffectInstance bunnyMeltInstance;
+        DeadlyDoodad deadlyDoodad;
         Entity menuStart, menuInstructions1, menuInstructions2, menuPause, cursor;
         Room room;
         Obstacles fullShelf1, fullShelf2, fullShelf3, fullShelf4, table;
@@ -66,6 +67,7 @@ namespace GameJam2015
             playerRightAnimation = new Animation();
 
             goalBunny = new GoalBunny();
+            deadlyDoodad = new DeadlyDoodad();
             audio = new AudioManager(Content.RootDirectory);
             CurrentState = States.MainMenu;
             playerDirection = Direction.Still;
@@ -81,6 +83,7 @@ namespace GameJam2015
             entities.Add(table);
             entities.Add(fullShelf1);
             entities.Add(fullShelf2);
+            entities.Add(deadlyDoodad);
             menuInstructions1 = new Entity();
             menuInstructions2 = new Entity();
 
@@ -162,6 +165,10 @@ namespace GameJam2015
             pauseTexture = Content.Load<Texture2D>("Sprites/Pause Screen.png");
 
             endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
+
+            Texture2D doodad_texture = Content.Load<Texture2D>("Sprites/Sprite2.png");
+            deadlyDoodad.Initialize(doodad_texture, 0.25f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2,
+            GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
         }
 
         /// <summary>
