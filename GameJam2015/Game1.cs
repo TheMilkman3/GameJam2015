@@ -37,6 +37,7 @@ namespace GameJam2015
         Entity menuStart, menuExit;
         Room room;
         Obstacles shelf, table;
+        Texture2D endTexture;
 
         public Game1()
             : base()
@@ -141,6 +142,7 @@ namespace GameJam2015
             table.Initialize(tableTexture, .25f, new Vector2(room.Height() / 2, room.Width() / 2));
 
             room.addItem(entities);
+            endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
         }
 
         /// <summary>
@@ -311,6 +313,10 @@ namespace GameJam2015
                 {
                     e.Draw(spriteBatch);
                 }
+            }
+            if (CurrentState == States.Credits)
+            {
+                spriteBatch.Draw(endTexture, endTexture.Bounds, Color.White);
             }
             else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
             {
