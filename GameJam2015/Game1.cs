@@ -36,7 +36,7 @@ namespace GameJam2015
         SoundEffectInstance bunnyMeltInstance;
         Entity menuStart, menuExit;
         Room room;
-        Obstacles shelf, table;
+        Obstacles fullShelf1, fullShelf2, fullShelf3, fullShelf4, table;
 
         public Game1()
             : base()
@@ -71,10 +71,17 @@ namespace GameJam2015
             menuOption = MenuSelect.Start;
             room = new Room();
             table = new Obstacles();
-            shelf = new Obstacles();
+            fullShelf1 = new Obstacles();
+            fullShelf2 = new Obstacles();
+            fullShelf3 = new Obstacles();
+            fullShelf4 = new Obstacles();
             entities.Add(goalBunny);
             entities.Add(player);
             entities.Add(table);
+            entities.Add(fullShelf1);
+            entities.Add(fullShelf2);
+            /*entities.Add(fullShelf3);
+            entities.Add(fullShelf4);*/
             base.Initialize();
         }
 
@@ -139,6 +146,11 @@ namespace GameJam2015
 
             Texture2D tableTexture = Content.Load<Texture2D>("Sprites/Table.png");
             table.Initialize(tableTexture, .25f, new Vector2(room.Height() / 2, room.Width() / 2));
+
+            Texture2D shelfTexture = Content.Load<Texture2D>("Sprites/Shelf.png");
+            fullShelf1.Initialize(shelfTexture, .25f, Vector2.Zero);
+
+            fullShelf2.Initialize(shelfTexture, .25f, new Vector2(3 * room.Width() / 4, 3 * room.Height() / 4));
 
             room.addItem(entities);
         }
@@ -243,13 +255,13 @@ namespace GameJam2015
                 // Make sure to not call update methods or game time here
                 if(menuOption == MenuSelect.Start)
                 {
-                    //menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
-                    //menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, exitPosition);
+                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Title Screen.png"), 0.5f, menuPosition);
+                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Pause Screen.png"), 0.5f, exitPosition);
                 }
                 else
                 {
-                    //menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, menuPosition);
-                    //menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
+                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Pause Screen.png"), 0.5f, menuPosition);
+                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Title Screen.png"), 0.5f, exitPosition);
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
                 {
