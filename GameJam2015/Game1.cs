@@ -36,7 +36,9 @@ namespace GameJam2015
         SoundEffectInstance bunnyMeltInstance;
         Entity menuStart, menuExit;
         Room room;
-        Obstacles fullShelf1, fullShelf2, fullShelf3, fullShelf4, table;
+        Obstacles fullShelf1, fullShelf2, fullShelf3, fullShelf4, fullShelf5, fullShelf6, fullShelf7,
+            fullShelf8, fullShelf9, fullShelf10, halfShelf1, halfShelf2, halfShelf3, halfShelf4, halfShelf5, halfShelf6,
+            halfShelf7, halfShelf8, table;
         Texture2D endTexture;
 
         public Game1()
@@ -72,17 +74,52 @@ namespace GameJam2015
             menuOption = MenuSelect.Start;
             room = new Room();
             table = new Obstacles();
+
             fullShelf1 = new Obstacles();
             fullShelf2 = new Obstacles();
             fullShelf3 = new Obstacles();
             fullShelf4 = new Obstacles();
+            fullShelf5 = new Obstacles();
+            fullShelf6 = new Obstacles();
+            fullShelf7 = new Obstacles();
+            fullShelf8 = new Obstacles();
+            fullShelf9 = new Obstacles();
+            fullShelf10 = new Obstacles();
+
+            halfShelf1 = new Obstacles();
+            halfShelf2 = new Obstacles();
+            halfShelf3 = new Obstacles();
+            halfShelf4 = new Obstacles();
+            halfShelf5 = new Obstacles();
+            halfShelf6 = new Obstacles();
+            halfShelf7 = new Obstacles();
+            halfShelf8 = new Obstacles();
+
             entities.Add(goalBunny);
+
             entities.Add(player);
+
             entities.Add(table);
+
             entities.Add(fullShelf1);
             entities.Add(fullShelf2);
-            /*entities.Add(fullShelf3);
-            entities.Add(fullShelf4);*/
+            entities.Add(fullShelf3);
+            entities.Add(fullShelf4);
+            entities.Add(fullShelf5);
+            entities.Add(fullShelf6);
+            /*entities.Add(fullShelf7);
+            entities.Add(fullShelf8);
+            entities.Add(fullShelf9);
+            entities.Add(fullShelf10);*/
+
+            entities.Add(halfShelf1);
+            entities.Add(halfShelf2);
+            entities.Add(halfShelf3);
+            entities.Add(halfShelf4);
+            entities.Add(halfShelf5);
+            entities.Add(halfShelf6);
+            entities.Add(halfShelf7);
+            entities.Add(halfShelf8);
             base.Initialize();
         }
 
@@ -108,20 +145,20 @@ namespace GameJam2015
             // Load the player resources
             Animation playerAnimation = new Animation();
             Texture2D playerTexture = Content.Load<Texture2D>("Sprites/HeroIdleSheet.png");
-            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, .25f, true);
+            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, .2f, true);
             //bunnyMelt = Content.Load<SoundEffect>(@"Audio\\03_Child_Bride.wav");
             //bunnyMeltInstance = bunnyMelt.CreateInstance();
 
             // TODO: use this.Content to load your game content here
             // Load the player resources
             Texture2D playerIdleTexture = Content.Load<Texture2D>("Sprites/HeroIdleSheet.png");
-            playerIdleAnimation.Initialize(playerIdleTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, .25f, true);
+            playerIdleAnimation.Initialize(playerIdleTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, .2f, true);
 
             Texture2D playerUpTexture = Content.Load<Texture2D>("Sprites/HeroWalkUPSHEET.png");
-            playerUpAnimation.Initialize(playerUpTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, .25f, true);
+            playerUpAnimation.Initialize(playerUpTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, .2f, true);
 
             Texture2D playerDownTexture = Content.Load<Texture2D>("Sprites/HeroWalkDownSheet.png");
-            playerDownAnimation.Initialize(playerDownTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, .25f, true);
+            playerDownAnimation.Initialize(playerDownTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, .2f, true);
 
             // Load audio into the AudioManager. Plays the background music upon loading.
             audio.LoadAudio();
@@ -130,7 +167,7 @@ namespace GameJam2015
             // Load the player resources
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X,
             GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
-            player.Initialize(playerIdleAnimation, 1, playerPosition);
+            player.Initialize(playerIdleAnimation, 1, playerPosition, this);
 
             // Load the bunny resources
             Animation stareAnimation = new Animation();
@@ -151,7 +188,40 @@ namespace GameJam2015
             Texture2D shelfTexture = Content.Load<Texture2D>("Sprites/Shelf.png");
             fullShelf1.Initialize(shelfTexture, .25f, Vector2.Zero);
 
-            fullShelf2.Initialize(shelfTexture, .25f, new Vector2(3 * room.Width() / 4, 3 * room.Height() / 4));
+            fullShelf2.Initialize(shelfTexture, .25f, new Vector2(64, 0));
+
+            fullShelf3.Initialize(shelfTexture, .25f, new Vector2(5 * room.Width() / 8, 1 * room.Height() / 8));
+
+            fullShelf4.Initialize(shelfTexture, .25f, new Vector2(1 * room.Width() / 2, 1 * room.Height() / 8));
+
+            fullShelf5.Initialize(shelfTexture, .25f, new Vector2(1 * room.Width() / 4, 3 * room.Height() / 4));
+
+            fullShelf6.Initialize(shelfTexture, .25f, new Vector2(3 * room.Width() / 8, 3 * room.Height() / 4));
+
+            fullShelf7.Initialize(shelfTexture, .25f, new Vector2(0, 1 * room.Height() / 8));
+
+            //fullShelf8.Initialize(shelfTexture, .25f, new Vector2(1 * room.Width() / 4, 3 * room.Height() / 4));
+
+            //fullShelf9.Initialize(shelfTexture, .25f, new Vector2(1 * room.Width() / 4, 3 * room.Height() / 4));
+
+            //fullShelf10.Initialize(shelfTexture, .25f, new Vector2(1 * room.Width() / 4, 3 * room.Height() / 4));
+
+            Texture2D sideShelfTexture = Content.Load<Texture2D>("Sprites/Shelf 2.png");
+            halfShelf1.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 5 * room.Height() / 8));
+
+            halfShelf2.Initialize(sideShelfTexture, .25f, new Vector2(3 * room.Width() / 4, 1 * room.Height() / 4));
+
+            halfShelf3.Initialize(sideShelfTexture, .25f, new Vector2(3 * room.Width() / 4, 3 * room.Height() / 8));
+
+            halfShelf4.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
+
+            halfShelf5.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
+
+            halfShelf6.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
+
+            halfShelf7.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
+
+            halfShelf8.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
 
             room.addItem(entities);
             endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
@@ -164,6 +234,28 @@ namespace GameJam2015
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+        }
+
+        public void MovePlayer(string dir)
+        {
+            switch (dir)
+            {
+                case "up":
+                    player.SpriteAnimation = playerUpAnimation;
+                    break;
+                case "down":
+                    player.SpriteAnimation = playerDownAnimation;
+                    break;
+                case "left":
+                    player.SpriteAnimation = playerIdleAnimation;
+                    break;
+                case "right":
+                    player.SpriteAnimation = playerIdleAnimation;
+                    break;
+                default:
+                    player.SpriteAnimation = playerIdleAnimation;
+                    break;
+            }
         }
 
         /// <summary>
