@@ -40,6 +40,8 @@ namespace GameJam2015
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 512;
+            graphics.PreferredBackBufferWidth = 1024;
             Content.RootDirectory = "Content";
         }
 
