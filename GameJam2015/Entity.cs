@@ -45,7 +45,7 @@ namespace GameJam2015
         /// Per frame update of entity.
         /// </summary>
         /// <param name="entities">List of entities in room</param>
-        public void Update(List<Entity>  entities, GameTime gameTime)
+        public virtual void Update(List<Entity>  entities, GameTime gameTime)
         {
             Position += Velocity;
             List<Entity> collided_entities = CheckCollision(entities);
@@ -107,6 +107,30 @@ namespace GameJam2015
 
             }
             return collided_entities;
+        }
+
+        public void RotateCW()
+        {
+            if (Math.Abs(Velocity.X) > 0)
+            {
+                Velocity = new Vector2(0, Velocity.X);
+            }
+            else if (Math.Abs(Velocity.Y) > 0)
+            {
+                Velocity = new Vector2(Velocity.Y * -1, 0);
+            }
+        }
+
+        public void RotateCCW()
+        {
+            if (Math.Abs(Velocity.X) > 0)
+            {
+                Velocity = new Vector2(0, Velocity.X * -1);
+            }
+            if (Math.Abs(Velocity.Y) > 0)
+            {
+                Velocity = new Vector2(Velocity.Y, 0);
+            }
         }
     }
 }

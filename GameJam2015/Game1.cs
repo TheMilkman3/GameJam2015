@@ -22,6 +22,7 @@ namespace GameJam2015
         SpriteBatch spriteBatch;
         Timer aTime;
         Player player;
+        GoalBunny goalBunny;
         AudioManager audio;
         enum States { MainMenu, Play, PauseMenu, Credits };
         enum Direction { Up, Down, Left, Right, Still };
@@ -46,6 +47,9 @@ namespace GameJam2015
             aTime = new Timer(1000);
             //aTime.Start();
             player = new Player();
+            goalBunny = new GoalBunny();
+            entities.Add(player);
+            entities.Add(goalBunny);
             audio = new AudioManager();
             CurrentState = States.Play;
             base.Initialize();
@@ -78,6 +82,10 @@ namespace GameJam2015
             Animation jumpAnimation = new Animation();
             Texture2D jumpTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
             jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
+
+            Vector2 bunnyPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width/2,
+            GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8/10));
+            goalBunny.Initialize(jumpAnimation, 1f, bunnyPosition);
         }
 
         /// <summary>
@@ -116,12 +124,17 @@ namespace GameJam2015
                 {
                     player.Velocity = new Vector2(0, PLAYER_SPEED);
                 }
-                player.Update(entities, gameTime);
+                foreach (Entity e in entities)
+                {
+                    e.Update(entities, gameTime);
+                }
                 player.Velocity = Vector2.Zero;
 
-                // Make sure that the player does not go out of bounds
-                player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width());
-                player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height());
+                foreach (Entity e in entities)
+                {
+                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
+                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
+                }
 
                 base.Update(gameTime);
             }
@@ -150,6 +163,7 @@ namespace GameJam2015
 
             // Draw the Player
             player.Draw(spriteBatch);
+            goalBunny.Draw(spriteBatch);
 
             // Stop drawing
             spriteBatch.End();
