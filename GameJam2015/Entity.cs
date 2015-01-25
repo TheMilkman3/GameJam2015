@@ -67,6 +67,11 @@ namespace GameJam2015
         public List<Entity> CheckCollision(List<Entity> entities)
         {
             List<Entity> collided_entities = new List<Entity>();
+            if(entities == null)
+            {
+                return null;
+            }
+
             foreach(Entity e in entities)
             {
                 float x1 = Position.X;
