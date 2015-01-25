@@ -141,7 +141,7 @@ namespace GameJam2015
 
             menuInstructions1 = new Entity();
             menuInstructions2 = new Entity();
-            base.Initialize();
+            base.Initialize();  
         }
 
         /// <summary>
