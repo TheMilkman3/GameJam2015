@@ -42,6 +42,11 @@ namespace GameJam2015
         Texture2D stareTexture;
         int Invincibility = 2000;
 
+        Entity ArrowU, ArrowD, ArrowL, ArrowR;
+        Texture2D arrowU, arrowD, arrowL, arrowR;
+        Boolean ShowUp, ShowDown, ShowLeft, ShowRight, Staying; //Booleans used with the Arrows
+        float Px, Py; // simple place to know players positiong for use with the Arrows
+
         public Game1()
             : base()
         {
@@ -141,6 +146,13 @@ namespace GameJam2015
 
             menuInstructions1 = new Entity();
             menuInstructions2 = new Entity();
+
+
+
+            ArrowD = new Entity();
+            ArrowU = new Entity();
+            ArrowL = new Entity();
+            ArrowR = new Entity();
             base.Initialize();  
         }
 
@@ -156,6 +168,8 @@ namespace GameJam2015
             //Sound effect loading. Plays while background music is playing.
             //bunnyMelt = Content.Load<SoundEffect>(@"Audio\\03_Child_Bride.wav");
             //bunnyMeltInstance = bunnyMelt.CreateInstance();
+
+
 
             //Initialize the room where all entities reside
             Texture2D roomTexture = Content.Load<Texture2D>("Sprites/Test Background 2.png");
@@ -262,6 +276,12 @@ namespace GameJam2015
             stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 7, 90, Color.White, 1.5f, true);
             endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
 
+
+            //Loading in the arrows
+            arrowD = Content.Load<Texture2D>("Sprites/CursorD.png");
+            arrowU = Content.Load<Texture2D>("Sprites/CursorU.png");
+            arrowL = Content.Load<Texture2D>("Sprites/CursorL.png");
+            arrowR = Content.Load<Texture2D>("Sprites/Cursor.png");
             
         }
 
@@ -591,6 +611,31 @@ namespace GameJam2015
                 {
                     e.Draw(spriteBatch);
                 }
+                //Booleans set up to see if any player is pushin a directiong, but it only displays if the player is in that stay state.
+                if (Staying)
+                {
+                    if (ShowDown)
+                    {
+                        ArrowD.Initialize(arrowD, 0.5f, new Vector2(Px + 5, Py + 60));
+                        ArrowD.Draw(spriteBatch);
+                    }
+                    if (ShowUp)
+                    {
+                        ArrowU.Initialize(arrowU, 0.5f, new Vector2(Px + 5, Py - 25));
+                        ArrowU.Draw(spriteBatch);
+                    }
+                    if (ShowLeft)
+                    {
+                        ArrowL.Initialize(arrowL, 0.5f, new Vector2(Px - 35, Py + 20));
+                        ArrowL.Draw(spriteBatch);
+                    }
+                    if (ShowRight)
+                    {
+                        ArrowR.Initialize(arrowR, 0.5f, new Vector2(Px + 45, Py + 20));
+                        ArrowR.Draw(spriteBatch);
+                    }
+                }
+
             }
             else if (CurrentState == States.MainMenu)
             {
@@ -644,6 +689,15 @@ namespace GameJam2015
             Vdown = 0;
             Vright = 0;
             Vleft = 0;
+            Staying = false;
+            ShowUp = false;
+            ShowRight = false;
+            ShowLeft = false;
+            ShowDown = false;
+
+
+            Px = player.SpriteAnimation.Position.X;
+            Py = player.SpriteAnimation.Position.Y;
 
             // Player 1 Input
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -652,21 +706,25 @@ namespace GameJam2015
             {
                 P1Vote = true;
                 Vup++;
+                ShowUp = true;
             }
             if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed && !P1Vote || Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 P1Vote = true;
                 Vleft++;
+                ShowLeft = true;
             }
             if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed && !P1Vote || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 P1Vote = true;
                 Vright++;
+                ShowRight = true;
             }
             if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed && !P1Vote || Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 P1Vote = true;
                 Vdown++;
+                ShowDown = true;
             }
             //Player 2 Input
             if (GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -675,21 +733,25 @@ namespace GameJam2015
             {
                 P2Vote = true;
                 Vup++;
+                ShowUp = true;
             }
             if (GamePad.GetState(PlayerIndex.Two).DPad.Left == ButtonState.Pressed && !P2Vote || Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 P2Vote = true;
                 Vleft++;
+                ShowLeft = true;
             }
             if (GamePad.GetState(PlayerIndex.Two).DPad.Right == ButtonState.Pressed && !P2Vote || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 P2Vote = true;
                 Vright++;
+                ShowRight = true;
             }
             if (GamePad.GetState(PlayerIndex.Two).DPad.Down == ButtonState.Pressed && !P2Vote || Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 P2Vote = true;
                 Vdown++;
+                ShowDown = true;
             }
 
             //Player 3 Input
@@ -699,21 +761,25 @@ namespace GameJam2015
             {
                 P3Vote = true;
                 Vup++;
+                ShowUp = true;
             }
             if (GamePad.GetState(PlayerIndex.Three).DPad.Left == ButtonState.Pressed && !P3Vote || Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 P3Vote = true;
                 Vleft++;
+                ShowLeft = true;
             }
             if (GamePad.GetState(PlayerIndex.Three).DPad.Right == ButtonState.Pressed && !P3Vote || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 P3Vote = true;
                 Vright++;
+                ShowRight = true;
             }
             if (GamePad.GetState(PlayerIndex.Three).DPad.Down == ButtonState.Pressed && !P3Vote || Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 P3Vote = true;
                 Vdown++;
+                ShowDown = true;
             }
 
             //Player 4 
@@ -723,21 +789,25 @@ namespace GameJam2015
             {
                 P4Vote = true;
                 Vup++;
+                ShowUp = true;
             }
             if (GamePad.GetState(PlayerIndex.Four).DPad.Left == ButtonState.Pressed && !P4Vote || Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 P4Vote = true;
                 Vleft++;
+                ShowLeft = true;
             }
             if (GamePad.GetState(PlayerIndex.Four).DPad.Right == ButtonState.Pressed && !P4Vote || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 P4Vote = true;
                 Vright++;
+                ShowRight = true;
             }
             if (GamePad.GetState(PlayerIndex.Four).DPad.Down == ButtonState.Pressed && !P4Vote || Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 P4Vote = true;
                 Vdown++;
+                ShowDown = true;
             }
 
             //Checks to see who has not voted and gives a vote for staying for each non-voting player.
@@ -784,6 +854,11 @@ namespace GameJam2015
             {
                 player.Velocity = Vector2.Zero;
                 playerDirection = Direction.Still;
+                Staying = true;  
+            }
+            else
+            {
+                Staying = true;
             }
         }
 
