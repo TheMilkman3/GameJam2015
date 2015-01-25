@@ -17,7 +17,7 @@ namespace GameJam2015
     /// </summary>
     public class Game1 : Game
     {
-        readonly int PLAYER_SPEED = 12;
+        readonly int PLAYER_SPEED = 5;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Timer aTime;
@@ -36,7 +36,8 @@ namespace GameJam2015
         SoundEffectInstance bunnyMeltInstance;
         Entity menuStart, menuExit, cursor;
         Room room;
-        Obstacles desk, table;
+        Obstacles fullShelf1, fullShelf2, fullShelf3, fullShelf4, table;
+        Texture2D endTexture;
 
         public Game1()
             : base()
@@ -65,15 +66,23 @@ namespace GameJam2015
             playerRightAnimation = new Animation();
 
             goalBunny = new GoalBunny();
-            entities.Add(goalBunny);
-            entities.Add(player);
             audio = new AudioManager(Content.RootDirectory);
-            CurrentState = States.MainMenu;
+            CurrentState = States.Play;
             playerDirection = Direction.Still;
             menuOption = MenuSelect.Start;
             room = new Room();
             table = new Obstacles();
-            desk = new Obstacles();
+            fullShelf1 = new Obstacles();
+            fullShelf2 = new Obstacles();
+            fullShelf3 = new Obstacles();
+            fullShelf4 = new Obstacles();
+            entities.Add(goalBunny);
+            entities.Add(player);
+            entities.Add(table);
+            entities.Add(fullShelf1);
+            entities.Add(fullShelf2);
+            /*entities.Add(fullShelf3);
+            entities.Add(fullShelf4);*/
             base.Initialize();
         }
 
@@ -136,9 +145,16 @@ namespace GameJam2015
             GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8/10));
             goalBunny.Initialize(jumpAnimation, 1f, bunnyPosition);
 
+            Texture2D tableTexture = Content.Load<Texture2D>("Sprites/Table.png");
+            table.Initialize(tableTexture, .25f, new Vector2(room.Height() / 2, room.Width() / 2));
 
+            Texture2D shelfTexture = Content.Load<Texture2D>("Sprites/Shelf.png");
+            fullShelf1.Initialize(shelfTexture, .25f, Vector2.Zero);
+
+            fullShelf2.Initialize(shelfTexture, .25f, new Vector2(3 * room.Width() / 4, 3 * room.Height() / 4));
 
             room.addItem(entities);
+            endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
         }
 
         /// <summary>
@@ -186,11 +202,9 @@ namespace GameJam2015
                     CurrentState = States.PauseMenu;
                     Thread.Sleep(100);
                 }
+
                 foreach (Entity e in room.roomItems)
                 {
-                    //player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width());
-                    //player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height());
-
                     e.Position.X = MathHelper.Clamp(e.Position.X, 0, room.Width() - e.Width());
                     e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, room.Height() - e.Height());
                     e.Update(entities, gameTime);
@@ -223,7 +237,9 @@ namespace GameJam2015
                     e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
                     e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
                 }
+
                 player.Velocity = Vector2.Zero;
+
                 if (player.EndGame)
                 {
                     CurrentState = States.Credits;
@@ -246,15 +262,13 @@ namespace GameJam2015
                 // Make sure to not call update methods or game time here
                 if(menuOption == MenuSelect.Start)
                 {
-                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
-                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, exitPosition);
-                    cursor.Initialize(Content.Load<Texture2D>("Sprites/Cursor.png"), 0.5f, menuPosition);
+                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Title Screen.png"), 0.5f, menuPosition);
+                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Pause Screen.png"), 0.5f, exitPosition);
                 }
                 else
                 {
-                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, menuPosition);
-                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
-                    cursor.Initialize(Content.Load<Texture2D>("Sprites/Cursor.png"), 0.5f, exitPosition);
+                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Pause Screen.png"), 0.5f, menuPosition);
+                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Title Screen.png"), 0.5f, exitPosition);
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
                 {
@@ -292,6 +306,8 @@ namespace GameJam2015
             }
             else if (CurrentState == States.Credits)
             {
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    Exit();
             }
         }
 
@@ -316,6 +332,10 @@ namespace GameJam2015
                 {
                     e.Draw(spriteBatch);
                 }
+            }
+            if (CurrentState == States.Credits)
+            {
+                spriteBatch.Draw(endTexture, endTexture.Bounds, Color.White);
             }
             else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
             {

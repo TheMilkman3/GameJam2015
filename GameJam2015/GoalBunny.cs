@@ -10,7 +10,7 @@ namespace GameJam2015
     public class GoalBunny : AnimatedEntity
     {
         static readonly int CHANGE_TIME = 500;
-        static readonly int BUNNY_SPEED = 12;
+        static readonly int BUNNY_SPEED = 5;
         int timeUntilChange = CHANGE_TIME;
         int AIState = 0;
         public override void Initialize(Animation anim, float scale, Vector2 position)
@@ -26,7 +26,7 @@ namespace GameJam2015
             if (timeUntilChange <= 0)
             {
                 timeUntilChange = CHANGE_TIME;
-                if (AIState == 6)
+                if (AIState == 9)
                 {
                     AIState = 0;
                 }
@@ -55,6 +55,12 @@ namespace GameJam2015
                         break;
                     case 6:
                         RotateCW();
+                        break;
+                    case 7:
+                        Velocity = Vector2.Zero;
+                        break;
+                    case 9:
+                        Velocity = new Vector2(0, BUNNY_SPEED);
                         break;
                 }
             }
