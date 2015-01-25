@@ -6,7 +6,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Audio;
+using System.Threading;
 #endregion
 
 namespace GameJam2015
@@ -27,6 +28,8 @@ namespace GameJam2015
         enum States { MainMenu, Play, PauseMenu, Credits };
         States CurrentState;
         List<Entity> entities = new List<Entity>();
+        SoundEffect newplay;
+        SoundEffectInstance newplayinstance;
 
         public Game1()
             : base()
@@ -48,7 +51,7 @@ namespace GameJam2015
             aTime = new Timer(1000);
             //aTime.Start();
             player = new Player();
-            audio = new AudioManager();
+            audio = new AudioManager(Content.RootDirectory);
             collision_tester = new Entity();
             collision_tester.Solid = true;
             entities.Add(player);
@@ -66,12 +69,14 @@ namespace GameJam2015
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //Sound effect loading. Plays while background music is playing.
+            newplay = Content.Load<SoundEffect>(@"Audio\\03_Child_Bride.wav");
+            newplayinstance = newplay.CreateInstance();
             // TODO: use this.Content to load your game content here
 
             // Load audio into the AudioManager
-            audio.LoadAudio(Content.RootDirectory);
-            audio.PlayBackground();
-
+            audio.LoadAudio();
+            //audio.PlayBackground();
             // Load the player resources
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
             player.Initialize(Content.Load<Texture2D>("Sprites\\Sprite.png"), 0.5f, playerPosition);
@@ -101,18 +106,23 @@ namespace GameJam2015
                 if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.W))
                 {
                     player.Velocity = new Vector2(0, -PLAYER_SPEED);
+                    audio.Play("world");
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.A))
                 {
                     player.Velocity = new Vector2(-PLAYER_SPEED, 0);
+                    Console.WriteLine("Player goes left");
+                    newplayinstance.Play();
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D))
                 {
                     player.Velocity = new Vector2(PLAYER_SPEED, 0);
+                    newplayinstance.Stop();
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
                 {
                     player.Velocity = new Vector2(0, PLAYER_SPEED);
+                    audio.Play("child");
                 }
                 player.Update(entities, gameTime);
                 player.Velocity = Vector2.Zero;
