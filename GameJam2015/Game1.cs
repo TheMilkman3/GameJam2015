@@ -125,7 +125,7 @@ namespace GameJam2015
             entities.Add(halfShelf6);
             entities.Add(halfShelf7);
             entities.Add(halfShelf8);
-            entities.Add(deadlyDoodad);
+            //entities.Add(deadlyDoodad);
             menuInstructions1 = new Entity();
             menuInstructions2 = new Entity();
             base.Initialize();
@@ -145,9 +145,9 @@ namespace GameJam2015
             //bunnyMeltInstance = bunnyMelt.CreateInstance();
 
             //Initialize the room where all entities reside
-            Texture2D roomTexture = Content.Load<Texture2D>("Sprites/Test Background.png");
+            Texture2D roomTexture = Content.Load<Texture2D>("Sprites/Test Background 2.png");
             //Texture2D roomTexture = Content.Load<Texture2D>("Sprites/Title Screen.png");
-            room.Initialize(roomTexture, .25f, Vector2.Zero);
+            room.Initialize(roomTexture, .5f, Vector2.Zero);
 
             // TODO: use this.Content to load your game content here
             // Load the player resources
@@ -235,7 +235,7 @@ namespace GameJam2015
             endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
 
             stareTexture = Content.Load<Texture2D>("Sprites/BunStareSheet.png");
-            stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 8, 90, Color.White, 1.5f, true);
+            stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 7, 90, Color.White, 1.5f, true);
             endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
 
             Texture2D doodad_texture = Content.Load<Texture2D>("Sprites/Sprite.png");
@@ -252,6 +252,33 @@ namespace GameJam2015
             // TODO: Unload any non ContentManager content here
         }
 
+        public void SingleButtonPress(Buttons button)
+        {
+            if (CurrentState == States.Play)
+            {
+                switch (button)
+                {
+                    case Buttons.A:
+                        Console.WriteLine("A button");
+                        audio.Play("child");
+                        break;
+                    case Buttons.B:
+                        Console.WriteLine("B button");
+                        audio.Play("fuq");
+                        break;
+                    case Buttons.X:
+                        Console.WriteLine("X button");
+                        audio.Play("world");
+                        break;
+                    case Buttons.Y:
+                        Console.WriteLine("Y button");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -262,25 +289,9 @@ namespace GameJam2015
             if (CurrentState == States.Play)
             {
                 InputPlusMovement();
-                if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
-                {
-                    audio.Play("child");
-                }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed)
-                {
-                    audio.Play("fuq");
-                }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed)
-                {
-                    audio.Play("world");
-                }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
-                {
-                    bunnyMeltInstance.Play();
-                }
+                
                 if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
                 {
-                    bunnyMeltInstance.Stop();
                 }
 
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))

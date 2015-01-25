@@ -262,23 +262,7 @@ namespace GameJam2015
 
         protected void NotifyButtonDown(Buttons button)
         {
-            switch (button)
-            {
-                case Buttons.A:
-                    Console.WriteLine("A button");
-                    break;
-                case Buttons.B:
-                    Console.WriteLine("B button");
-                    break;
-                case Buttons.X:
-                    Console.WriteLine("X button");
-                    break;
-                case Buttons.Y:
-                    Console.WriteLine("Y button");
-                    break;
-                default:
-                    break;
-            }
+            game.SingleButtonPress(button);
             Console.WriteLine("Pressed!");
             //mListener.ButtonDown(button);
         }

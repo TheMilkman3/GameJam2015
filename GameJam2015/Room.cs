@@ -10,6 +10,15 @@ namespace GameJam2015
     public class Room : Entity
     {
         public List<Entity> roomItems;
+        public Vector2 Scale;
+
+        public void Initialize(Texture2D texture, float scaleX, float scaleY, Vector2 position)
+        {
+            Sprite = texture;
+            Scale = new Vector2(scaleX, scaleY);
+            Position = position;
+            Velocity = Vector2.Zero;
+        }
 
         public Room()
         {
