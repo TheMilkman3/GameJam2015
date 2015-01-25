@@ -59,7 +59,7 @@ namespace GameJam2015
             entities.Add(goalBunny);
             entities.Add(player);
             audio = new AudioManager(Content.RootDirectory);
-            CurrentState = States.MainMenu;
+            CurrentState = States.Play;
             menuOption = MenuSelect.Start;
             base.Initialize();
         }
@@ -82,7 +82,7 @@ namespace GameJam2015
             // TODO: use this.Content to load your game content here
             // Load the player resources
             Animation playerAnimation = new Animation();
-            Texture2D playerTexture = Content.Load<Texture2D>("Sprites/HeroIdleSheet.png");
+            Texture2D playerTexture = Content.Load<Texture2D>("HeroIdleSheet.png");
             playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, 1f, true);
 
             // Load audio into the AudioManager. Plays the background music upon loading.
@@ -96,11 +96,11 @@ namespace GameJam2015
 
             // Load the bunny resources
             Animation stareAnimation = new Animation();
-            Texture2D stareTexture = Content.Load<Texture2D>("Sprites/BunStareSheet.png");
+            Texture2D stareTexture = Content.Load<Texture2D>("BunStareSheet.png");
             stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 8, 80, Color.White, 1f, true);
 
             Animation jumpAnimation = new Animation();
-            Texture2D jumpTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
+            Texture2D jumpTexture = Content.Load<Texture2D>("BunJumpSheet.png");
             jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 4, 80, Color.White, 1f, true);
 
             Vector2 bunnyPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width/2,
@@ -172,20 +172,11 @@ namespace GameJam2015
                 }
                 foreach (Entity e in entities)
                 {
-                    //player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width());
-                    //player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height());
-
+                    e.Update(entities, gameTime);
                     e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
                     e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
-                    e.Update(entities, gameTime);
                 }
                 player.Velocity = Vector2.Zero;
-
-                foreach (Entity e in entities)
-                {
-                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
-                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
-                }
                 base.Update(gameTime);
             }
             else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
