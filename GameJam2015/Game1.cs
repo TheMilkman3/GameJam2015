@@ -67,7 +67,7 @@ namespace GameJam2015
             entities.Add(goalBunny);
             entities.Add(player);
             audio = new AudioManager(Content.RootDirectory);
-            CurrentState = States.Play;
+            CurrentState = States.MainMenu;
             playerDirection = Direction.Still;
             menuOption = MenuSelect.Start;
             base.Initialize();
