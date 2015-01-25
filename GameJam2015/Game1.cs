@@ -37,6 +37,7 @@ namespace GameJam2015
         Entity menuStart, menuExit;
         Room room;
         Obstacles fullShelf1, fullShelf2, fullShelf3, fullShelf4, table;
+        Texture2D endTexture;
 
         public Game1()
             : base()
@@ -66,7 +67,7 @@ namespace GameJam2015
 
             goalBunny = new GoalBunny();
             audio = new AudioManager(Content.RootDirectory);
-            CurrentState = States.MainMenu;
+            CurrentState = States.Play;
             playerDirection = Direction.Still;
             menuOption = MenuSelect.Start;
             room = new Room();
@@ -153,6 +154,7 @@ namespace GameJam2015
             fullShelf2.Initialize(shelfTexture, .25f, new Vector2(3 * room.Width() / 4, 3 * room.Height() / 4));
 
             room.addItem(entities);
+            endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
         }
 
         /// <summary>
@@ -323,6 +325,10 @@ namespace GameJam2015
                 {
                     e.Draw(spriteBatch);
                 }
+            }
+            if (CurrentState == States.Credits)
+            {
+                spriteBatch.Draw(endTexture, endTexture.Bounds, Color.White);
             }
             else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
             {
