@@ -20,3 +20,4 @@ C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\obj
 C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Release\GameJam2015.exe
 C:\Users\Keith\documents\visual studio 2010\Projects\GameJam2015\GameJam2015\obj\x86\Release\GameJam2015.pdb
 C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\Content\Audio\Around_The_World.wav
+C:\Users\Ziaz\Documents\Visual Studio 2010\Projects\GameJam2015\GameJam2015\bin\WindowsGL\Release\Content\Audio\TheFuqDoWeDoNaow.wav
