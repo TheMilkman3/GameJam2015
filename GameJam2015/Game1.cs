@@ -78,14 +78,13 @@ namespace GameJam2015
             bunnyMeltInstance = bunnyMelt.CreateInstance();
 
 
-
             // TODO: use this.Content to load your game content here
             // Load the player resources
             Animation playerAnimation = new Animation();
             Texture2D playerTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
             playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 4, 160, Color.White, 1f, true);
 
-            // Load audio into the AudioManager
+            // Load audio into the AudioManager. Plays the background music upon loading.
             audio.LoadAudio();
             audio.Play("fuq");
             // Load the player resources
@@ -196,13 +195,13 @@ namespace GameJam2015
                 // Make sure to not call update methods or game time here
                 if(menuOption == MenuSelect.Start)
                 {
-                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
+                    //menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
                     menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, exitPosition);
                 }
                 else
                 {
                     menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, menuPosition);
-                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
+                    //menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
                 {
