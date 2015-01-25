@@ -46,7 +46,7 @@ namespace GameJam2015
         /// Per frame update of entity.
         /// </summary>
         /// <param name="entities">List of entities in room</param>
-        public virtual List<Entity> Update(List<Entity>  entities, GameTime gameTime)
+        public virtual List<Entity> Update(List<Entity> entities, GameTime gameTime)
         {
             Position += Velocity;
             List<Entity> collided_entities = CheckCollision(entities);

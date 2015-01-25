@@ -10,7 +10,8 @@ namespace GameJam2015
     public class Player : AnimatedEntity
     {
         public bool EndGame = false;
-        public override void Initialize(Animation anim, float scale, Vector2 position)
+
+        public new void Initialize(Animation anim, float scale, Vector2 position)
         {
             base.Initialize(anim, scale, position);
             Solid = true;
