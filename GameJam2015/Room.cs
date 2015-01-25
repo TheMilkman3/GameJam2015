@@ -16,24 +16,6 @@ namespace GameJam2015
             roomItems = new List<Entity>();
         }
 
-        /*public void Initialize(Texture2D sprite, float scale)
-        {
-            Scale = scale;
-            Sprite = sprite;
-
-            roomItems = new List<Entity>();
-        }*/
-
-        /*public override float Width()
-        {
-            return Sprite.Width * Scale;
-        }
-
-        public override float Height()
-        {
-            return Sprite.Height * Scale;
-        }*/
-
         public void addItem(List<Entity> list)
         {
             Console.WriteLine(list.Count);

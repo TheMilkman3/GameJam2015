@@ -17,7 +17,7 @@ namespace GameJam2015
     /// </summary>
     public class Game1 : Game
     {
-        readonly int PLAYER_SPEED = 12;
+        readonly int PLAYER_SPEED = 5;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Timer aTime;
@@ -36,7 +36,7 @@ namespace GameJam2015
         SoundEffectInstance bunnyMeltInstance;
         Entity menuStart, menuExit;
         Room room;
-        Obstacles desk, table;
+        Obstacles shelf, table;
 
         public Game1()
             : base()
@@ -65,15 +65,16 @@ namespace GameJam2015
             playerRightAnimation = new Animation();
 
             goalBunny = new GoalBunny();
-            entities.Add(goalBunny);
-            entities.Add(player);
             audio = new AudioManager(Content.RootDirectory);
             CurrentState = States.MainMenu;
             playerDirection = Direction.Still;
             menuOption = MenuSelect.Start;
             room = new Room();
             table = new Obstacles();
-            desk = new Obstacles();
+            shelf = new Obstacles();
+            entities.Add(goalBunny);
+            entities.Add(player);
+            entities.Add(table);
             base.Initialize();
         }
 
@@ -136,7 +137,8 @@ namespace GameJam2015
             GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8/10));
             goalBunny.Initialize(jumpAnimation, 1f, bunnyPosition);
 
-
+            Texture2D tableTexture = Content.Load<Texture2D>("Sprites/Table.png");
+            table.Initialize(tableTexture, .25f, new Vector2(room.Height() / 2, room.Width() / 2));
 
             room.addItem(entities);
         }
@@ -186,11 +188,9 @@ namespace GameJam2015
                     CurrentState = States.PauseMenu;
                     Thread.Sleep(100);
                 }
+
                 foreach (Entity e in room.roomItems)
                 {
-                    //player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width());
-                    //player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height());
-
                     e.Position.X = MathHelper.Clamp(e.Position.X, 0, room.Width() - e.Width());
                     e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, room.Height() - e.Height());
                     e.Update(entities, gameTime);
@@ -223,7 +223,9 @@ namespace GameJam2015
                     e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
                     e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
                 }
+
                 player.Velocity = Vector2.Zero;
+
                 if (player.EndGame)
                 {
                     CurrentState = States.Credits;
