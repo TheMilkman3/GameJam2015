@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace GameJam2015
 {
-    ///TESTESTESTEST
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -23,7 +22,7 @@ namespace GameJam2015
         SpriteBatch spriteBatch;
         Timer aTime;
         Player player;
-        GoalBunny goalBunny;
+        //GoalBunny goalBunny;
         AudioManager audio;
         enum States { MainMenu, Play, PauseMenu, Credits };
         enum Direction { Up, Down, Left, Right, Still };
@@ -54,11 +53,10 @@ namespace GameJam2015
             aTime = new Timer(1000);
             //aTime.Start();
             player = new Player();
-            goalBunny = new GoalBunny();
+            //goalBunny = new GoalBunny();
             entities.Add(player);
-            entities.Add(goalBunny);
+            //entities.Add(goalBunny);
             audio = new AudioManager(Content.RootDirectory);
-            entities.Add(player);
             CurrentState = States.MainMenu;
             menuOption = MenuSelect.Start;
             base.Initialize();
@@ -74,16 +72,16 @@ namespace GameJam2015
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //Sound effect loading. Plays while background music is playing.
-            bunnyMelt = Content.Load<SoundEffect>(@"Audio\\03_Child_Bride.wav");
-            bunnyMeltInstance = bunnyMelt.CreateInstance();
+            //bunnyMelt = Content.Load<SoundEffect>(@"Audio\\Around_The_World.wav");
+            //bunnyMeltInstance = bunnyMelt.CreateInstance();
 
 
 
             // TODO: use this.Content to load your game content here
             // Load the player resources
             Animation playerAnimation = new Animation();
-            Texture2D playerTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
-            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
+            Texture2D playerTexture = Content.Load<Texture2D>("Sprites/HeroIdleSheet.png");
+            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, 1f, true);
 
             // Load audio into the AudioManager
             audio.LoadAudio();
@@ -101,11 +99,11 @@ namespace GameJam2015
 
             Animation jumpAnimation = new Animation();
             Texture2D jumpTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
-            jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
+            jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 4, 80, Color.White, 1f, true);
 
             Vector2 bunnyPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width/2,
             GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8/10));
-            goalBunny.Initialize(jumpAnimation, 1f, bunnyPosition);
+            //goalBunny.Initialize(jumpAnimation, 1f, bunnyPosition);
         }
 
         /// <summary>
@@ -144,28 +142,28 @@ namespace GameJam2015
                 {
                     player.Velocity = new Vector2(0, PLAYER_SPEED);
                 }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
-                {
-                    audio.Play("child");
-                }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
-                {
-                    audio.Play("fuq");
-                }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
-                {
-                    audio.Play("world");
-                }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
-                {
-                    bunnyMeltInstance.Play();
-                }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
-                {
-                    bunnyMeltInstance.Stop();
-                }
+                //if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                //{
+                //    audio.Play("child");
+                //}
+                //if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                //{
+                //    audio.Play("fuq");
+                //}
+                //if (GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                //{
+                //    audio.Play("world");
+                //}
+                //if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                //{
+                //    //bunnyMeltInstance.Play();
+                //}
+                //if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                //{
+                //    //bunnyMeltInstance.Stop();
+                //}
 
-                player.Update(entities, gameTime);
+                //player.Update(entities, gameTime);
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
                 {
                     CurrentState = States.PauseMenu;
@@ -173,15 +171,20 @@ namespace GameJam2015
                 }
                 foreach (Entity e in entities)
                 {
+                    //player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width());
+                    //player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height());
+
+                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
+                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
                     e.Update(entities, gameTime);
                 }
                 player.Velocity = Vector2.Zero;
 
-                foreach (Entity e in entities)
-                {
-                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
-                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
-                }
+                //foreach (Entity e in entities)
+                //{
+                //    e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
+                //    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
+                //}
 
                 base.Update(gameTime);
             }
@@ -259,7 +262,7 @@ namespace GameJam2015
             if (CurrentState == States.Play)
             {
                 player.Draw(spriteBatch);
-                goalBunny.Draw(spriteBatch);
+                //goalBunny.Draw(spriteBatch);
             }
             else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
             {
