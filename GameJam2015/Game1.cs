@@ -34,7 +34,6 @@ namespace GameJam2015
         List<Entity> entities = new List<Entity>();
         SoundEffect bunnyMelt;
         SoundEffectInstance bunnyMeltInstance;
-        DeadlyDoodad deadlyDoodad;
         Entity menuStart, menuInstructions1, menuInstructions2, menuPause, cursor;
         AnimatedEntity stareBunny;
         Room room;
@@ -70,7 +69,6 @@ namespace GameJam2015
             stareBunny = new AnimatedEntity();
 
             goalBunny = new GoalBunny();
-            deadlyDoodad = new DeadlyDoodad();
             audio = new AudioManager(Content.RootDirectory);
             CurrentState = States.MainMenu;
             playerDirection = Direction.Still;
@@ -86,7 +84,6 @@ namespace GameJam2015
             entities.Add(table);
             entities.Add(fullShelf1);
             entities.Add(fullShelf2);
-            entities.Add(deadlyDoodad);
             menuInstructions1 = new Entity();
             menuInstructions2 = new Entity();
             /*entities.Add(fullShelf3);
@@ -167,10 +164,6 @@ namespace GameJam2015
             stareTexture = Content.Load<Texture2D>("Sprites/BunStareSheet.png");
             stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 8, 90, Color.White, 1.5f, true);
             endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
-
-            Texture2D doodad_texture = Content.Load<Texture2D>("Sprites/Sprite2.png");
-            deadlyDoodad.Initialize(doodad_texture, 0.25f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2,
-            GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
         }
 
         /// <summary>
@@ -248,7 +241,7 @@ namespace GameJam2015
                 {
                     e.Position.X = MathHelper.Clamp(e.Position.X, 0, room.Width() - e.Width());
                     e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, room.Height() - e.Height());
-                    e.Update(entities, gameTime);
+                    e.Update(room.roomItems, gameTime);
                 }
 
                 player.Velocity = Vector2.Zero;
@@ -263,6 +256,14 @@ namespace GameJam2015
                     playerDirection = Direction.Still;
                     goalBunny.Position = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8 / 10));
                     player.Reset = false;
+
+                    Texture2D doodad_texture = Content.Load<Texture2D>("Sprites/Orb_IdleSheet");
+                    Animation doodad_animation = new Animation();
+                    doodad_animation.Initialize(doodad_texture, Vector2.Zero, 64, 64, 9, 160, Color.White, 1f, true);
+                    DeadlyDoodad deadlyDoodad = new DeadlyDoodad();
+                    deadlyDoodad.Initialize(doodad_animation, 0.25f, new Vector2(room.Width() /2,
+                    room.Height()/2));
+                    room.roomItems.Add(deadlyDoodad);
                 }
                 base.Update(gameTime);
             }
