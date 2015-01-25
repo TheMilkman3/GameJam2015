@@ -194,7 +194,7 @@ namespace GameJam2015
             playerDownAnimation.Initialize(playerDownTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, .2f, true);
 
             Texture2D playerRightTexture = Content.Load<Texture2D>("Sprites/HeroWalkSideSheet.png");
-            playerRightAnimation.Initialize(playerRightTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, .25f, true);
+            playerRightAnimation.Initialize(playerRightTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, .2f, true);
 
             // Load audio into the AudioManager. Plays the background music upon loading.
             audio.LoadAudio();
