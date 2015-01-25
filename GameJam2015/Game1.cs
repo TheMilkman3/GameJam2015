@@ -282,15 +282,15 @@ namespace GameJam2015
                 {
                     case Buttons.A:
                         Console.WriteLine("A button");
-                        audio.Play("child");
+                        //audio.Play("child");
                         break;
                     case Buttons.B:
                         Console.WriteLine("B button");
-                        audio.Play("fuq");
+                        //audio.Play("fuq");
                         break;
                     case Buttons.X:
                         Console.WriteLine("X button");
-                        audio.Play("world");
+                        //audio.Play("world");
                         break;
                     case Buttons.Y:
                         Console.WriteLine("Y button");
