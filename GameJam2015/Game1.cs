@@ -58,6 +58,7 @@ namespace GameJam2015
             player = new Player();
             goalBunny = new GoalBunny();
             entities.Add(goalBunny);
+            entities.Add(player);
             audio = new AudioManager(Content.RootDirectory);
             CurrentState = States.Play;
             menuOption = MenuSelect.Start;
@@ -173,6 +174,7 @@ namespace GameJam2015
                 {
                     e.Update(entities, gameTime);
                 }
+
                 player.Velocity = Vector2.Zero;
 
                 foreach (Entity e in entities)
@@ -180,6 +182,7 @@ namespace GameJam2015
                     e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
                     e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
                 }
+
                 base.Update(gameTime);
             }
             else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
