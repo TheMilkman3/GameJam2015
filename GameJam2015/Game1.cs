@@ -106,13 +106,13 @@ namespace GameJam2015
             // TODO: use this.Content to load your game content here
             // Load the player resources
             Texture2D playerIdleTexture = Content.Load<Texture2D>("Sprites/HeroIdleSheet.png");
-            playerIdleAnimation.Initialize(playerIdleTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, 1f, true);
+            playerIdleAnimation.Initialize(playerIdleTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, .25f, true);
 
             Texture2D playerUpTexture = Content.Load<Texture2D>("Sprites/HeroWalkUPSHEET.png");
-            playerUpAnimation.Initialize(playerUpTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, 1f, true);
+            playerUpAnimation.Initialize(playerUpTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, .25f, true);
 
             Texture2D playerDownTexture = Content.Load<Texture2D>("Sprites/HeroWalkDownSheet.png");
-            playerDownAnimation.Initialize(playerDownTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, 1f, true);
+            playerDownAnimation.Initialize(playerDownTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, .25f, true);
 
             // Load audio into the AudioManager. Plays the background music upon loading.
             audio.LoadAudio();
