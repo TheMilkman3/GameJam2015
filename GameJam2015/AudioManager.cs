@@ -38,13 +38,8 @@ namespace GameJam2015
                 {
                     if (f.ToLower().Contains(s))
                     {
-                        Console.WriteLine("Play a new sound?");
                         player.SoundLocation = f;
                         player.Play();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Incorrect match.");
                     }
                 }
                 catch
