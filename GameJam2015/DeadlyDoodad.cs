@@ -13,15 +13,17 @@ namespace GameJam2015
 {
     class DeadlyDoodad : Entity
     {
-        static readonly int CHANGE_TIME = 500;
+        static readonly int CHANGE_TIME = 1000;
         static readonly int DOODAD_SPEED = 2;
         int timeUntilChange = CHANGE_TIME;
-        int AIState = 0;
+        Random rand;
 
         public override void Initialize(Texture2D texture, float scale, Vector2 position)
         {
             base.Initialize(texture, scale, position);
             Velocity.X = DOODAD_SPEED;
+            Deadly = true;
+            rand = new Random();
         }
 
         public override List<Entity> Update(List<Entity> entities, GameTime gameTime)
@@ -29,25 +31,16 @@ namespace GameJam2015
             timeUntilChange -= gameTime.ElapsedGameTime.Milliseconds;
             if (timeUntilChange <= 0)
             {
+                int n = rand.Next(2);
+                if (n == 0)
+                {
+                    RotateCW();
+                }
+                else if (n == 1)
+                {
+                    RotateCCW();
+                }
                 timeUntilChange = CHANGE_TIME;
-                if (AIState == 1)
-                {
-                    AIState = 0;
-                }
-                else
-                {
-                    AIState++;
-                }
-                switch (AIState)
-                {
-                    case 0:
-                        RotateCW();
-                        RotateCW();
-                        break;
-                    case 1:
-                        RotateCCW();
-                        break;
-                }
             }
             return base.Update(entities, gameTime);
 

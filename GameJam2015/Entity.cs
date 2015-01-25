@@ -15,6 +15,7 @@ namespace GameJam2015
         public float Scale;
         public bool LevelGoal = false;
         public bool isObstacle = false;
+        public bool Deadly = false;
 
         public bool Solid
         {
@@ -136,7 +137,7 @@ namespace GameJam2015
             {
                 Velocity = new Vector2(0, Velocity.X * -1);
             }
-            if (Math.Abs(Velocity.Y) > 0)
+            else if (Math.Abs(Velocity.Y) > 0)
             {
                 Velocity = new Vector2(Velocity.Y, 0);
             }

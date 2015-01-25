@@ -60,7 +60,7 @@ namespace GameJam2015
                         RotateCCW();
                         break;
                     case 8:
-                        RotateCCW();
+                        RotateCW();
                         break;
                     case 9:
                         RotateCW();
