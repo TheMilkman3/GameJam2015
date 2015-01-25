@@ -57,7 +57,6 @@ namespace GameJam2015
             goalBunny = new GoalBunny();
             entities.Add(goalBunny);
             audio = new AudioManager(Content.RootDirectory);
-            entities.Add(player);
             CurrentState = States.Play;
             menuOption = MenuSelect.Start;
             base.Initialize();
@@ -77,14 +76,13 @@ namespace GameJam2015
             bunnyMeltInstance = bunnyMelt.CreateInstance();
 
 
-
             // TODO: use this.Content to load your game content here
             // Load the player resources
             Animation playerAnimation = new Animation();
             Texture2D playerTexture = Content.Load<Texture2D>("BunJumpSheet.png");
             playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 4, 80, Color.White, 1f, true);
 
-            // Load audio into the AudioManager
+            // Load audio into the AudioManager. Plays the background music upon loading.
             audio.LoadAudio();
             audio.Play("fuq");
             // Load the player resources
@@ -143,23 +141,23 @@ namespace GameJam2015
                 {
                     player.Velocity = new Vector2(0, PLAYER_SPEED);
                 }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
                 {
                     audio.Play("child");
                 }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed)
                 {
                     audio.Play("fuq");
                 }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                if (GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed)
                 {
                     audio.Play("world");
                 }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed)
                 {
                     bunnyMeltInstance.Play();
                 }
-                if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
                 {
                     bunnyMeltInstance.Stop();
                 }
@@ -193,13 +191,13 @@ namespace GameJam2015
                 // Make sure to not call update methods or game time here
                 if(menuOption == MenuSelect.Start)
                 {
-                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
+                    //menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
                     menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, exitPosition);
                 }
                 else
                 {
                     menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, menuPosition);
-                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
+                    //menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
                 {

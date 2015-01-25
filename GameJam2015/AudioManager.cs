@@ -14,6 +14,10 @@ namespace GameJam2015
         public SoundPlayer player;
         public string stream, directory;
 
+        /// <summary>
+        /// Instantiates the AudioManager that plays the background music.
+        /// </summary>
+        /// <param name="path">Content.RootDirectory</param>
         public AudioManager(string path)
         {
             player = new SoundPlayer();
@@ -22,6 +26,10 @@ namespace GameJam2015
             directory = Path.GetFullPath(stream);
         }
 
+        /// <summary>
+        /// Specifies which audio file to play, in turn stopping the previous and plays the new.
+        /// </summary>
+        /// <param name="s">Piece of the file name</param>
         public void Play(string s)
         {
             foreach (string f in Directory.EnumerateFiles(directory))
@@ -30,13 +38,8 @@ namespace GameJam2015
                 {
                     if (f.ToLower().Contains(s))
                     {
-                        Console.WriteLine("Play a new sound?");
                         player.SoundLocation = f;
                         player.Play();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Incorrect match.");
                     }
                 }
                 catch
@@ -46,6 +49,9 @@ namespace GameJam2015
             }
         }
 
+        /// <summary>
+        /// Loads all audio files to be used during the course of the game.
+        /// </summary>
         public void LoadAudio()
         {
             foreach (string f in Directory.EnumerateFiles(directory))
