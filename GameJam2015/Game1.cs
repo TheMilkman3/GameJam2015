@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
+using System.Threading;
 #endregion
 
 namespace GameJam2015
@@ -25,8 +26,12 @@ namespace GameJam2015
         AudioManager audio;
         enum States { MainMenu, Play, PauseMenu, Credits };
         enum Direction { Up, Down, Left, Right, Still };
+        enum MenuSelect { Start, Exit };
         States CurrentState;
+        MenuSelect menuOption;
         List<Entity> entities = new List<Entity>();
+        Entity menuStart;
+        Entity menuExit;
 
         public Game1()
             : base()
@@ -47,7 +52,8 @@ namespace GameJam2015
             //aTime.Start();
             player = new Player();
             audio = new AudioManager();
-            CurrentState = States.Play;
+            CurrentState = States.MainMenu;
+            menuOption = MenuSelect.Start;
             base.Initialize();
         }
 
@@ -61,6 +67,7 @@ namespace GameJam2015
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
             // Load the player resources
             Animation playerAnimation = new Animation();
             Texture2D playerTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
@@ -116,6 +123,11 @@ namespace GameJam2015
                 {
                     player.Velocity = new Vector2(0, PLAYER_SPEED);
                 }
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
+                {
+                    CurrentState = States.PauseMenu;
+                    Thread.Sleep(100);
+                }
                 player.Update(entities, gameTime);
                 player.Velocity = Vector2.Zero;
 
@@ -125,11 +137,58 @@ namespace GameJam2015
 
                 base.Update(gameTime);
             }
-            else if (CurrentState == States.MainMenu)
+            else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
             {
-            }
-            else if (CurrentState == States.PauseMenu)
-            {
+                menuStart = new Entity();
+                menuExit = new Entity();
+
+                Vector2 menuPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 3);
+                Vector2 exitPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+
+                // Make sure to not call update methods or game time here
+                if(menuOption == MenuSelect.Start)
+                {
+                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
+                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, exitPosition);
+                }
+                else
+                {
+                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, menuPosition);
+                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
+                }
+                if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    if (menuOption == MenuSelect.Start)
+                    {
+                        menuOption = MenuSelect.Exit;
+                    }
+                }
+                if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.W))
+                {
+                    if (menuOption == MenuSelect.Exit)
+                    {
+                        menuOption = MenuSelect.Start;
+                    }
+                }
+                if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed
+                    || GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed
+                    || Keyboard.GetState().IsKeyDown(Keys.Enter))
+                {
+                    if (menuOption == MenuSelect.Start)
+                    {
+                        Thread.Sleep(100);
+                        CurrentState = States.Play;
+                    }
+                    else
+                    {
+                        Exit();
+                    }
+                }
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    Exit();
+                menuStart.Update(null, null);
+                menuExit.Update(null, null);
+                base.Update(gameTime);
             }
             else if (CurrentState == States.Credits)
             {
@@ -149,7 +208,15 @@ namespace GameJam2015
             spriteBatch.Begin();
 
             // Draw the Player
-            player.Draw(spriteBatch);
+            if (CurrentState == States.Play)
+            {
+                player.Draw(spriteBatch);
+            }
+            else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
+            {
+                menuStart.Draw(spriteBatch);
+                menuExit.Draw(spriteBatch);
+            }
 
             // Stop drawing
             spriteBatch.End();
