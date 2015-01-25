@@ -78,10 +78,10 @@ namespace GameJam2015
                 float y1 = Position.Y;
                 float x2 = e.Position.X;
                 float y2 = e.Position.Y;
-                float height1 = Height() * Scale;
-                float width1 = Width() * Scale;
-                float height2 = e.Height() * e.Scale;
-                float width2 = e.Width() * e.Scale;
+                float height1 = Height();
+                float width1 = Width();
+                float height2 = e.Height();
+                float width2 = e.Width();
                 if (x1 < x2 + width2 &&
                     x1 + width1 > x2 &&
                     y1 < y2 + height2 &&
