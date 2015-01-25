@@ -37,9 +37,9 @@ namespace GameJam2015
         /// Per frame update of entity.
         /// </summary>
         /// <param name="entities">List of entities in room</param>
-        public override void Update(List<Entity> entities, GameTime gameTime)
+        public override List<Entity> Update(List<Entity> entities, GameTime gameTime)
         {
-            base.Update(entities, gameTime);
+            List<Entity> collided_entities = base.Update(entities, gameTime);
             if (Velocity.X < 0)
             {
                 SpriteAnimation.FlipHorizontally = true;
@@ -50,6 +50,7 @@ namespace GameJam2015
             }
             SpriteAnimation.Position = Position;
             SpriteAnimation.Update(gameTime);
+            return collided_entities;
         }
 
         /// <summary>
