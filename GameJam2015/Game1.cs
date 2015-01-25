@@ -193,6 +193,10 @@ namespace GameJam2015
                     e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
                 }
                 player.Velocity = Vector2.Zero;
+                if (player.EndGame)
+                {
+                    CurrentState = States.Credits;
+                }
                 base.Update(gameTime);
             }
             else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
@@ -303,7 +307,6 @@ namespace GameJam2015
             Vleft = 0;
 
             // Player 1 Input
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed && !P1Vote || Keyboard.GetState().IsKeyDown(Keys.W))
