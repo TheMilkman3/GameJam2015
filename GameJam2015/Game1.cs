@@ -173,23 +173,10 @@ namespace GameJam2015
                 foreach (Entity e in entities)
                 {
                     e.Update(entities, gameTime);
-<<<<<<< HEAD
                     e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
                     e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
                 }
                 player.Velocity = Vector2.Zero;
-=======
-                }
-
-                player.Velocity = Vector2.Zero;
-
-                foreach (Entity e in entities)
-                {
-                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
-                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
-                }
-
->>>>>>> 1b7c28b7893960757c8330aa2e88c549aea6f6dc
                 base.Update(gameTime);
             }
             else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
