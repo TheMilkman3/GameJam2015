@@ -301,6 +301,8 @@ namespace GameJam2015
             }
             else if (CurrentState == States.Credits)
             {
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    Exit();
             }
         }
 
