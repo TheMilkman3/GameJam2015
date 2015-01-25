@@ -9,7 +9,8 @@ namespace GameJam2015
     {
         public Obstacles()
         {
+            isObstacle = true;
+            Solid = true;
         }
-
     }
 }

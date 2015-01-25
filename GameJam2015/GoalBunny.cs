@@ -10,7 +10,7 @@ namespace GameJam2015
     public class GoalBunny : AnimatedEntity
     {
         static readonly int CHANGE_TIME = 500;
-        static readonly int BUNNY_SPEED = 12;
+        static readonly int BUNNY_SPEED = 5;
         int timeUntilChange = CHANGE_TIME;
         int AIState = 0;
         public override void Initialize(Animation anim, float scale, Vector2 position)
