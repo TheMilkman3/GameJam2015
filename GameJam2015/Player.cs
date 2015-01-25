@@ -11,6 +11,7 @@ namespace GameJam2015
     {
         public bool EndGame = false;
         ControllerInput p1, p2, p3, p4;
+        public bool Reset = false;
 
         public new void Initialize(Animation anim, float scale, Vector2 position, Game1 game)
         {
@@ -35,6 +36,10 @@ namespace GameJam2015
                 foreach (Entity e in collided_entities)
                 {
                     if (e.LevelGoal)
+                    {
+                        Reset = true;
+                    }
+                    if (e.Deadly)
                     {
                         EndGame = true;
                     }
