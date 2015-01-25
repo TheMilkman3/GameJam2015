@@ -36,7 +36,7 @@ namespace GameJam2015
         /// <param name="texture">Entity's 2d sprite.</param>
         /// <param name="scale">Scale of the sprite</param>
         /// <param name="position">X,Y coordinates of the entity on screen.</param>
-        public void Initialize(Texture2D texture, float scale, Vector2 position)
+        public virtual void Initialize(Texture2D texture, float scale, Vector2 position)
         {
             Sprite = texture;
             Scale = scale;

@@ -26,7 +26,7 @@ namespace GameJam2015
             if (timeUntilChange <= 0)
             {
                 timeUntilChange = CHANGE_TIME;
-                if (AIState == 9)
+                if (AIState == 10)
                 {
                     AIState = 0;
                 }
@@ -57,11 +57,18 @@ namespace GameJam2015
                         RotateCW();
                         break;
                     case 7:
-                        Velocity = Vector2.Zero;
+                        RotateCCW();
+                        break;
+                    case 8:
+                        RotateCCW();
                         break;
                     case 9:
-                        Velocity = new Vector2(0, BUNNY_SPEED);
+                        RotateCW();
                         break;
+                    case 10:
+                        RotateCW();
+                        break;
+
                 }
             }
             return base.Update(entities, gameTime);
