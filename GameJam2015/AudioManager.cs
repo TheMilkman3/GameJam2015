@@ -5,6 +5,7 @@ using System.Text;
 using System.Media;
 using System.IO;
 using System.Resources;
+using Microsoft.Xna.Framework.Content;
 
 namespace GameJam2015
 {
@@ -13,7 +14,7 @@ namespace GameJam2015
         public SoundPlayer player;
         public string stream, directory;
 
-        public AudioManager()
+        public AudioManager(string path)
         {
             /*if (!Directory.Exists(directory))
             {
@@ -25,6 +26,9 @@ namespace GameJam2015
             
             }*/
             player = new SoundPlayer();
+            
+            stream = path + "\\Audio";
+            directory = Path.GetFullPath(stream);
         }
 
         private void PlayAudioFromResource(Object sender, EventArgs e)
@@ -42,13 +46,39 @@ namespace GameJam2015
             {
                 Console.WriteLine("Error playing music");
             }
-
         }
 
-        public void LoadAudio(string path)
+        public void Play(string s)
         {
-            stream = path + "\\Audio";
-            directory = Path.GetFullPath(stream);
+            foreach (string f in Directory.EnumerateFiles(directory))
+            {
+                try
+                {
+                    if (f.ToLower().Contains(s))
+                    {
+                        Console.WriteLine("Play a new sound?");
+                        player.SoundLocation = f;
+                        player.Play();
+                    }
+                    else if (f.ToLower().Contains(s))
+                    {
+                        player.SoundLocation = f;
+                        player.Play();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Sound not found");
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Does not play");
+                }
+            }
+        }
+
+        public void LoadAudio()
+        {
             Console.WriteLine(directory);
 
             foreach (string f in Directory.EnumerateFiles(directory))
@@ -63,7 +93,6 @@ namespace GameJam2015
                 {
                     Console.WriteLine("Error loading");
                     Console.WriteLine(ex.Message);
-                    
                 }
             }
         }

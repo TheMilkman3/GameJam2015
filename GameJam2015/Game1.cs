@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using System.Threading;
+using Microsoft.Xna.Framework.Audio;
 #endregion
 
 namespace GameJam2015
@@ -32,6 +33,8 @@ namespace GameJam2015
         List<Entity> entities = new List<Entity>();
         Entity menuStart;
         Entity menuExit;
+        SoundEffect newplay;
+        SoundEffectInstance newplayinstance;
 
         public Game1()
             : base()
@@ -51,6 +54,9 @@ namespace GameJam2015
             aTime = new Timer(1000);
             //aTime.Start();
             player = new Player();
+            audio = new AudioManager(Content.RootDirectory);
+            entities.Add(player);
+            CurrentState = States.Play;
             audio = new AudioManager();
             CurrentState = States.MainMenu;
             menuOption = MenuSelect.Start;
@@ -66,12 +72,19 @@ namespace GameJam2015
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //Sound effect loading. Plays while background music is playing.
+            newplay = Content.Load<SoundEffect>(@"Audio\\03_Child_Bride.wav");
+            newplayinstance = newplay.CreateInstance();
             // TODO: use this.Content to load your game content here
-
             // Load the player resources
             Animation playerAnimation = new Animation();
             Texture2D playerTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
             playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
+
+            // Load audio into the AudioManager
+            audio.LoadAudio();
+            //audio.PlayBackground();
+            // Load the player resources
 
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X,
             GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
@@ -110,18 +123,23 @@ namespace GameJam2015
                 if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.W))
                 {
                     player.Velocity = new Vector2(0, -PLAYER_SPEED);
+                    audio.Play("world");
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.A))
                 {
                     player.Velocity = new Vector2(-PLAYER_SPEED, 0);
+                    Console.WriteLine("Player goes left");
+                    newplayinstance.Play();
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D))
                 {
                     player.Velocity = new Vector2(PLAYER_SPEED, 0);
+                    newplayinstance.Stop();
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
                 {
                     player.Velocity = new Vector2(0, PLAYER_SPEED);
+                    audio.Play("child");
                 }
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
                 {
@@ -164,11 +182,11 @@ namespace GameJam2015
                     }
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.W))
-                {
+            {
                     if (menuOption == MenuSelect.Exit)
                     {
                         menuOption = MenuSelect.Start;
-                    }
+            }
                 }
                 if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed
                     || GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed
@@ -180,7 +198,7 @@ namespace GameJam2015
                         CurrentState = States.Play;
                     }
                     else
-                    {
+            {
                         Exit();
                     }
                 }
@@ -210,7 +228,7 @@ namespace GameJam2015
             // Draw the Player
             if (CurrentState == States.Play)
             {
-                player.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             }
             else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
             {
