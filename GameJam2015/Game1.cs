@@ -60,7 +60,7 @@ namespace GameJam2015
             entities.Add(goalBunny);
             audio = new AudioManager(Content.RootDirectory);
             entities.Add(player);
-            CurrentState = States.MainMenu;
+            CurrentState = States.Play;
             menuOption = MenuSelect.Start;
             base.Initialize();
         }
@@ -81,7 +81,7 @@ namespace GameJam2015
             // Load the player resources
             Animation playerAnimation = new Animation();
             Texture2D playerTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
-            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
+            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 4, 160, Color.White, 1f, true);
 
             // Load audio into the AudioManager
             audio.LoadAudio();
@@ -99,7 +99,7 @@ namespace GameJam2015
 
             Animation jumpAnimation = new Animation();
             Texture2D jumpTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
-            jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 3, 80, Color.White, 1f, true);
+            jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 4, 80, Color.White, 1f, true);
 
             Vector2 bunnyPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width/2,
             GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8/10));
