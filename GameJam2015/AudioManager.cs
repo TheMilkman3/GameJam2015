@@ -16,36 +16,10 @@ namespace GameJam2015
 
         public AudioManager(string path)
         {
-            /*if (!Directory.Exists(directory))
-            {
-                Console.WriteLine("does not exist");
-            }
-            else
-            {
-                Console.WriteLine("Audio directory: {0}", directory);
-            
-            }*/
             player = new SoundPlayer();
             
             stream = path + "\\Audio";
             directory = Path.GetFullPath(stream);
-        }
-
-        private void PlayAudioFromResource(Object sender, EventArgs e)
-        {
-        }
-
-        public void PlayBackground()
-        {
-            try
-            {
-                Console.WriteLine("play music");
-                player.Play();
-            }
-            catch
-            {
-                Console.WriteLine("Error playing music");
-            }
         }
 
         public void Play(string s)
@@ -60,14 +34,9 @@ namespace GameJam2015
                         player.SoundLocation = f;
                         player.Play();
                     }
-                    else if (f.ToLower().Contains(s))
-                    {
-                        player.SoundLocation = f;
-                        player.Play();
-                    }
                     else
                     {
-                        Console.WriteLine("Sound not found");
+                        Console.WriteLine("Incorrect match.");
                     }
                 }
                 catch
@@ -79,13 +48,11 @@ namespace GameJam2015
 
         public void LoadAudio()
         {
-            Console.WriteLine(directory);
-
             foreach (string f in Directory.EnumerateFiles(directory))
             {
                 try
                 {
-                    player.SoundLocation = f;
+                    //player.SoundLocation = f;
                     player.LoadAsync();
                     Console.WriteLine("Audio load for {0} was successful.", f);
                 }

@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
 using System.Threading;
 using Microsoft.Xna.Framework.Audio;
 #endregion
@@ -32,10 +31,10 @@ namespace GameJam2015
         States CurrentState;
         MenuSelect menuOption;
         List<Entity> entities = new List<Entity>();
+        SoundEffect bunnyMelt;
+        SoundEffectInstance bunnyMeltInstance;
         Entity menuStart;
         Entity menuExit;
-        SoundEffect newplay;
-        SoundEffectInstance newplayinstance;
 
         public Game1()
             : base()
@@ -75,8 +74,11 @@ namespace GameJam2015
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //Sound effect loading. Plays while background music is playing.
-            newplay = Content.Load<SoundEffect>(@"Audio\\03_Child_Bride.wav");
-            newplayinstance = newplay.CreateInstance();
+            bunnyMelt = Content.Load<SoundEffect>(@"Audio\\03_Child_Bride.wav");
+            bunnyMeltInstance = bunnyMelt.CreateInstance();
+
+
+
             // TODO: use this.Content to load your game content here
             // Load the player resources
             Animation playerAnimation = new Animation();
@@ -85,7 +87,7 @@ namespace GameJam2015
 
             // Load audio into the AudioManager
             audio.LoadAudio();
-            //audio.PlayBackground();
+            audio.Play("fuq");
             // Load the player resources
 
             Vector2 playerPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X,
@@ -129,24 +131,41 @@ namespace GameJam2015
                 if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.W))
                 {
                     player.Velocity = new Vector2(0, -PLAYER_SPEED);
-                    audio.Play("world");
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.A))
                 {
                     player.Velocity = new Vector2(-PLAYER_SPEED, 0);
-                    Console.WriteLine("Player goes left");
-                    newplayinstance.Play();
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D))
                 {
                     player.Velocity = new Vector2(PLAYER_SPEED, 0);
-                    newplayinstance.Stop();
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
                 {
                     player.Velocity = new Vector2(0, PLAYER_SPEED);
+                }
+                if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                {
                     audio.Play("child");
                 }
+                if (GamePad.GetState(PlayerIndex.One).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    audio.Play("fuq");
+                }
+                if (GamePad.GetState(PlayerIndex.One).Buttons.X == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    audio.Play("world");
+                }
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Y == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    bunnyMeltInstance.Play();
+                }
+                if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    bunnyMeltInstance.Stop();
+                }
+
+                player.Update(entities, gameTime);
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
                 {
                     CurrentState = States.PauseMenu;
