@@ -22,6 +22,7 @@ namespace GameJam2015
         {
             base.Initialize(texture, scale, position);
             Velocity.X = DOODAD_SPEED;
+            Deadly = true;
             rand = new Random();
         }
 

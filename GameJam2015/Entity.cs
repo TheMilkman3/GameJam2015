@@ -15,6 +15,7 @@ namespace GameJam2015
         public float Scale;
         public bool LevelGoal = false;
         public bool isObstacle = false;
+        public bool Deadly = false;
 
         public bool Solid
         {

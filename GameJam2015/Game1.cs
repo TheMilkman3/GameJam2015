@@ -220,12 +220,7 @@ namespace GameJam2015
                     Thread.Sleep(100);
                 }
 
-                foreach (Entity e in room.roomItems)
-                {
-                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, room.Width() - e.Width());
-                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, room.Height() - e.Height());
-                    e.Update(entities, gameTime);
-                }
+                
 
                 if (playerDirection == Direction.Still)
                 {
@@ -250,11 +245,11 @@ namespace GameJam2015
                     player.SpriteAnimation = playerRightAnimation;
                 }
 
-                foreach (Entity e in entities)
+                foreach (Entity e in room.roomItems)
                 {
+                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, room.Width() - e.Width());
+                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, room.Height() - e.Height());
                     e.Update(entities, gameTime);
-                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
-                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
                 }
 
                 player.Velocity = Vector2.Zero;
@@ -262,6 +257,13 @@ namespace GameJam2015
                 if (player.EndGame)
                 {
                     CurrentState = States.Credits;
+                }
+                if (player.Reset)
+                {
+                    player.Position = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + 50, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
+                    playerDirection = Direction.Still;
+                    goalBunny.Position = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8 / 10));
+                    player.Reset = false;
                 }
                 base.Update(gameTime);
             }
