@@ -11,13 +11,13 @@ namespace GameJam2015
     {
         public Animation SpriteAnimation;
 
-        public new int Width
+        public override int Width()
         {
-            get { return SpriteAnimation.FrameWidth; }
+            return SpriteAnimation.FrameWidth;
         }
-        public new int Height
+        public override int Height()
         {
-            get { return SpriteAnimation.FrameHeight; }
+            return SpriteAnimation.FrameHeight;
         }
 
         /// <summary>
@@ -28,7 +28,9 @@ namespace GameJam2015
         public void Initialize(Animation anim, float scale, Vector2 position)
         {
             base.Initialize(null, scale, position);
+            Solid = true;
             SpriteAnimation = anim;
+            SpriteAnimation.Position = position;
         }
 
         /// <summary>
@@ -45,7 +47,7 @@ namespace GameJam2015
         /// <summary>
         /// Draws entity's sprite.
         /// </summary>
-        public new void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             SpriteAnimation.Draw(spriteBatch);
         }

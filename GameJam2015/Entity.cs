@@ -18,13 +18,13 @@ namespace GameJam2015
             get;
             set;
         }
-        public int Width
+        public virtual int Width()
         {
-            get { return (int)(Sprite.Width*Scale); }
+            return (int)(Sprite.Width*Scale);
         }
-        public int Height
+        public virtual int Height()
         {
-            get { return (int)(Sprite.Height * Scale); }
+            return (int)(Sprite.Height * Scale);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace GameJam2015
         /// <summary>
         /// Draws entity's sprite.
         /// </summary>
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Sprite, Position, null, Color.White, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
         }
@@ -73,10 +73,10 @@ namespace GameJam2015
                 float y1 = Position.Y;
                 float x2 = e.Position.X;
                 float y2 = e.Position.Y;
-                float height1 = Height;
-                float width1 = Width;
-                float height2 = e.Height;
-                float width2 = e.Width;
+                float height1 = Height();
+                float width1 = Width();
+                float height2 = e.Height();
+                float width2 = e.Width();
                 if (x1 < x2 + width2 &&
                     x1 + width1 > x2 &&
                     y1 < y2 + height2 &&
