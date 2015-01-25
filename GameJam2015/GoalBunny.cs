@@ -16,10 +16,11 @@ namespace GameJam2015
         public override void Initialize(Animation anim, float scale, Vector2 position)
         {
             base.Initialize(anim, scale, position);
+            LevelGoal = true;
             Velocity = new Vector2(BUNNY_SPEED, 0);
         }
 
-        public override void Update(List<Entity> entities, GameTime gameTime)
+        public override List<Entity> Update(List<Entity> entities, GameTime gameTime)
         {
             timeUntilChange -= gameTime.ElapsedGameTime.Milliseconds;
             if (timeUntilChange <= 0)
@@ -57,7 +58,7 @@ namespace GameJam2015
                         break;
                 }
             }
-            base.Update(entities, gameTime);
+            return base.Update(entities, gameTime);
 
         }
     }
