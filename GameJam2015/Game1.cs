@@ -32,15 +32,12 @@ namespace GameJam2015
         Direction playerDirection;
         MenuSelect menuOption;
         List<Entity> entities = new List<Entity>();
-        SoundEffect bunnyMelt;
-        SoundEffectInstance bunnyMeltInstance;
-        DeadlyDoodad deadlyDoodad;
         Entity menuStart, menuInstructions1, menuInstructions2, menuPause, cursor;
         AnimatedEntity stareBunny;
         Room room;
         Obstacles fullShelf1, fullShelf2, fullShelf3, fullShelf4, fullShelf5, fullShelf6, fullShelf7,
             fullShelf8, fullShelf9, fullShelf10, halfShelf1, halfShelf2, halfShelf3, halfShelf4, halfShelf5, halfShelf6,
-            halfShelf7, halfShelf8, table;
+            halfShelf7, halfShelf8, table1, table2, table3, bed1, bed2, bed3, bed4;
         Texture2D instructions1Texture, instructions2Texture, pauseTexture, endTexture;
         Texture2D stareTexture;
         int Invincibility = 2000;
@@ -77,8 +74,12 @@ namespace GameJam2015
             CurrentState = States.MainMenu;
             playerDirection = Direction.Still;
             menuOption = MenuSelect.Start;
+
             room = new Room();
-            table = new Obstacles();
+
+            table1 = new Obstacles();
+            table2 = new Obstacles();
+            table3 = new Obstacles();
 
             fullShelf1 = new Obstacles();
             fullShelf2 = new Obstacles();
@@ -100,11 +101,18 @@ namespace GameJam2015
             halfShelf7 = new Obstacles();
             halfShelf8 = new Obstacles();
 
+            bed1 = new Obstacles();
+            bed2 = new Obstacles();
+            bed3 = new Obstacles();
+            bed4 = new Obstacles();
+
             entities.Add(goalBunny);
 
             entities.Add(player);
 
-            entities.Add(table);
+            entities.Add(table1);
+            entities.Add(table2);
+            entities.Add(table3);
 
             entities.Add(fullShelf1);
             entities.Add(fullShelf2);
@@ -112,9 +120,9 @@ namespace GameJam2015
             entities.Add(fullShelf4);
             entities.Add(fullShelf5);
             entities.Add(fullShelf6);
-            /*entities.Add(fullShelf7);
+            entities.Add(fullShelf7);
             entities.Add(fullShelf8);
-            entities.Add(fullShelf9);
+            /*entities.Add(fullShelf9);
             entities.Add(fullShelf10);*/
 
             entities.Add(halfShelf1);
@@ -125,6 +133,12 @@ namespace GameJam2015
             entities.Add(halfShelf6);
             entities.Add(halfShelf7);
             entities.Add(halfShelf8);
+
+            entities.Add(bed1);
+            entities.Add(bed2);
+            entities.Add(bed3);
+            entities.Add(bed4);
+
             menuInstructions1 = new Entity();
             menuInstructions2 = new Entity();
             base.Initialize();
@@ -187,46 +201,56 @@ namespace GameJam2015
             goalBunny.Initialize(jumpAnimation, 1f, bunnyPosition);
 
             Texture2D tableTexture = Content.Load<Texture2D>("Sprites/Table.png");
-            table.Initialize(tableTexture, .25f, new Vector2(room.Height() / 2, room.Width() / 2));
+            table1.Initialize(tableTexture, .25f, new Vector2(1 * room.Width() / 8, 9 * room.Height() / 16));
+
+            table2.Initialize(tableTexture, .25f, new Vector2(9 * room.Width() / 16, 9 * room.Height() / 16));
+
+            table3.Initialize(tableTexture, .25f, new Vector2(3 * room.Width() / 4, 13 * room.Height() / 16));
 
             Texture2D shelfTexture = Content.Load<Texture2D>("Sprites/Shelf.png");
-            fullShelf1.Initialize(shelfTexture, .25f, Vector2.Zero);
+            fullShelf1.Initialize(shelfTexture, .25f, new Vector2(3 * room.Width() / 8, 3 * room.Height() / 4));
 
-            fullShelf2.Initialize(shelfTexture, .25f, new Vector2(64, 0));
+            fullShelf2.Initialize(shelfTexture, .25f, new Vector2(7 * room.Width() / 16, 3 * room.Height() / 4));
 
-            fullShelf3.Initialize(shelfTexture, .25f, new Vector2(5 * room.Width() / 8, 1 * room.Height() / 8));
+            fullShelf3.Initialize(shelfTexture, .25f, new Vector2(1 * room.Width() / 2, 3 * room.Height() / 4));
 
-            fullShelf4.Initialize(shelfTexture, .25f, new Vector2(1 * room.Width() / 2, 1 * room.Height() / 8));
+            fullShelf4.Initialize(shelfTexture, .25f, new Vector2(5 * room.Width() / 8, 1 * room.Height() / 4));
 
-            fullShelf5.Initialize(shelfTexture, .25f, new Vector2(1 * room.Width() / 4, 3 * room.Height() / 4));
+            fullShelf5.Initialize(shelfTexture, .25f, new Vector2(11 * room.Width() / 16, 1 * room.Height() / 4));
 
-            fullShelf6.Initialize(shelfTexture, .25f, new Vector2(3 * room.Width() / 8, 3 * room.Height() / 4));
+            fullShelf6.Initialize(shelfTexture, .25f, new Vector2(3 * room.Width() / 4, 1 * room.Height() / 4));
 
-            fullShelf7.Initialize(shelfTexture, .25f, new Vector2(0, 1 * room.Height() / 8));
+            fullShelf7.Initialize(shelfTexture, .25f, new Vector2(5 * room.Width() / 16, 1 * room.Height() / 8));
 
-            //fullShelf8.Initialize(shelfTexture, .25f, new Vector2(1 * room.Width() / 4, 3 * room.Height() / 4));
-
-            //fullShelf9.Initialize(shelfTexture, .25f, new Vector2(1 * room.Width() / 4, 3 * room.Height() / 4));
+            fullShelf8.Initialize(shelfTexture, .25f, new Vector2(3 * room.Width() / 8, 1 * room.Height() / 8));
 
             //fullShelf10.Initialize(shelfTexture, .25f, new Vector2(1 * room.Width() / 4, 3 * room.Height() / 4));
 
             Texture2D sideShelfTexture = Content.Load<Texture2D>("Sprites/Shelf 2.png");
-            halfShelf1.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 5 * room.Height() / 8));
+            halfShelf1.Initialize(sideShelfTexture, .25f, new Vector2(9 * room.Width() / 32, 1 * room.Height() / 8));
 
-            halfShelf2.Initialize(sideShelfTexture, .25f, new Vector2(3 * room.Width() / 4, 1 * room.Height() / 4));
+            halfShelf2.Initialize(sideShelfTexture, .25f, new Vector2(9 * room.Width() / 32, 1 * room.Height() / 4));
 
-            halfShelf3.Initialize(sideShelfTexture, .25f, new Vector2(3 * room.Width() / 4, 3 * room.Height() / 8));
+            halfShelf3.Initialize(sideShelfTexture, .25f, new Vector2(13 * room.Width() / 16, 3 * room.Height() / 8));
 
-            halfShelf4.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
+            halfShelf4.Initialize(sideShelfTexture, .25f, new Vector2(13 * room.Width() / 16, 1 * room.Height() / 2));
 
-            halfShelf5.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
+            halfShelf5.Initialize(sideShelfTexture, .25f, new Vector2(3 * room.Width() / 8, 1 * room.Height() / 2));
 
-            halfShelf6.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
+            halfShelf6.Initialize(sideShelfTexture, .25f, new Vector2(3 * room.Width() / 8, 5 * room.Height() / 8));
 
-            halfShelf7.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
+            halfShelf7.Initialize(sideShelfTexture, .25f, new Vector2(29 * room.Width() / 32, 5 * room.Height() / 8));
 
-            halfShelf8.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
-            
+            halfShelf8.Initialize(sideShelfTexture, .25f, new Vector2(29 * room.Width() / 32, 3 * room.Height() / 4));
+
+            Texture2D bedTexture = Content.Load<Texture2D>("Sprites/Bed.png");
+            bed1.Initialize(bedTexture, .25f, new Vector2(1 * room.Width() / 16, 3 * room.Height() / 4));
+
+            bed2.Initialize(bedTexture, .25f, new Vector2(3 * room.Width() / 16, 3 * room.Height() / 4));
+
+            bed3.Initialize(bedTexture, .25f, new Vector2(1 * room.Width() / 16, 1 * room.Height() / 4));
+
+            bed4.Initialize(bedTexture, .25f, new Vector2(3 * room.Width() / 16, 1 * room.Height() / 4));
            
             room.addItem(entities);
             instructions1Texture = Content.Load<Texture2D>("Sprites/Instruction Screen.png");
