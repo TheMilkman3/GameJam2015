@@ -41,6 +41,9 @@ namespace GameJam2015
         public Vector2 Position;
         public bool FlipHorizontally = false;
 
+        public TimeSpan LastAnimation;
+        public TimeSpan Interval = new TimeSpan(0, 0, 5);
+
         public void Initialize(Texture2D texture, Vector2 position, int frameWidth, int frameHeight, int frameCount, int frametime, Color color, float scale, bool looping)
         {
             // Keep a local copy of the values passed in
@@ -66,7 +69,21 @@ namespace GameJam2015
         public void Update(GameTime gameTime)
         {
             // Do not update the game if we are not active
-            if (Active == false) return;
+            if (Active == false)
+            {
+                currentFrame = 0;
+                // Grab the correct frame in the image strip by multiplying the currentFrame index by the
+                //Frame width
+                sourceRect = new Rectangle(currentFrame * FrameWidth, 0, FrameWidth, FrameHeight);
+
+                // Grab the correct frame in the image strip by multiplying the currentFrame index by the frame width
+                destinationRect = new Rectangle((int)Position.X,
+                (int)Position.Y,
+                (int)(FrameWidth * scale),
+                (int)(FrameHeight * scale));
+                
+                return;
+            }
 
             // Update the elapsed time
             elapsedTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
@@ -102,18 +119,64 @@ namespace GameJam2015
             (int)(FrameHeight * scale));
         }
 
+        //public void Update(GameTime gameTime, bool isInMotion)
+        //{
+        //    if (Active && gameTime.TotalGameTime != LastAnimation)
+        //    {
+        //        // See if a time interval between frames is defined
+        //        if (Interval != TimeSpan.Zero)
+        //        {
+        //            // Do nothing until an interval passes
+        //            if (LastAnimation + Interval > gameTime.TotalGameTime)
+        //            {
+        //                return;
+        //            }
+        //        }
+
+        //        LastAnimation = gameTime.TotalGameTime;
+        //        if (currentFrame >= frameCount)
+        //        {
+        //            currentFrame = 0; // Reset the animation
+        //        }
+        //        else
+        //        {
+        //            // Only advance the animation if the animation element is moving
+        //            if (isInMotion)
+        //            {
+        //                    // Do not advance frames before the first draw operation
+        //                    if (drawWasAlreadyCalledOnce)
+        //                    {
+        //                        currentFrame.X++;
+        //                        if (currentFrame.X >= sheetSize.X)
+        //                        {
+        //                            currentFrame.X = 0;
+        //                            currentFrame.Y++;
+        //                        }
+        //                        if (currentFrame.Y >= sheetSize.Y)
+        //                            currentFrame.Y = 0;
+
+        //                        if (lastSubFrame != -1)
+        //                        {
+        //                            lastSubFrame = -1;
+        //                        }
+        //                    }
+        //            }
+        //        }
+        //    }
+        //}
+
         public void Draw(SpriteBatch spriteBatch)
         {
             // Only draw the animation when we are active
-            if (Active)
-            {
+            //if (Active)
+            //{
                 SpriteEffects effect = 0;
                 if (FlipHorizontally)
                 {
                     effect = SpriteEffects.FlipHorizontally;
                 }
                 spriteBatch.Draw(spriteStrip, destinationRect, sourceRect, color, 0f, Vector2.Zero, effect, 0);
-            }
+            //}
         }
     }
 }
