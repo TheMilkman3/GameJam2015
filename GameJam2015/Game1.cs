@@ -43,6 +43,7 @@ namespace GameJam2015
             halfShelf7, halfShelf8, table;
         Texture2D instructions1Texture, instructions2Texture, pauseTexture, endTexture;
         Texture2D stareTexture;
+        int Invincibility = 2000;
 
         public Game1()
             : base()
@@ -72,7 +73,6 @@ namespace GameJam2015
             stareBunny = new AnimatedEntity();
 
             goalBunny = new GoalBunny();
-            deadlyDoodad = new DeadlyDoodad();
             audio = new AudioManager(Content.RootDirectory);
             CurrentState = States.MainMenu;
             playerDirection = Direction.Still;
@@ -125,7 +125,6 @@ namespace GameJam2015
             entities.Add(halfShelf6);
             entities.Add(halfShelf7);
             entities.Add(halfShelf8);
-            //entities.Add(deadlyDoodad);
             menuInstructions1 = new Entity();
             menuInstructions2 = new Entity();
             base.Initialize();
@@ -227,7 +226,8 @@ namespace GameJam2015
             halfShelf7.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
 
             halfShelf8.Initialize(sideShelfTexture, .25f, new Vector2(1 * room.Width() / 4, 1 * room.Height() / 2));
-
+            
+           
             room.addItem(entities);
             instructions1Texture = Content.Load<Texture2D>("Sprites/Instruction Screen.png");
             instructions2Texture = Content.Load<Texture2D>("Sprites/Instructions 2.png");
@@ -238,9 +238,7 @@ namespace GameJam2015
             stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 7, 90, Color.White, 1.5f, true);
             endTexture = Content.Load<Texture2D>("Sprites/End Screen.png");
 
-            Texture2D doodad_texture = Content.Load<Texture2D>("Sprites/Sprite.png");
-            deadlyDoodad.Initialize(doodad_texture, 0.25f, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2,
-            GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2));
+            
         }
 
         /// <summary>
@@ -288,6 +286,10 @@ namespace GameJam2015
         {
             if (CurrentState == States.Play)
             {
+                if (Invincibility >= 0)
+                {
+                    Invincibility -= gameTime.ElapsedGameTime.Milliseconds;
+                }
                 InputPlusMovement();
                 
                 if (GamePad.GetState(PlayerIndex.One).Buttons.LeftShoulder == ButtonState.Pressed)
@@ -329,21 +331,35 @@ namespace GameJam2015
                 {
                     e.Position.X = MathHelper.Clamp(e.Position.X, 0, room.Width() - e.Width());
                     e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, room.Height() - e.Height());
-                    e.Update(entities, gameTime);
+                    e.Update(room.roomItems, gameTime);
                 }
 
                 player.Velocity = Vector2.Zero;
 
-                if (player.EndGame)
+                if (player.EndGame && Invincibility > 0)
+                {
+                    player.EndGame = false;
+                }
+                else if (player.EndGame)
                 {
                     CurrentState = States.Credits;
                 }
-                if (player.Reset)
+
+                else if (player.Reset)
                 {
+                    Invincibility = 2000;
                     player.Position = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + 50, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
                     playerDirection = Direction.Still;
                     goalBunny.Position = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height * (8 / 10));
                     player.Reset = false;
+
+                    Texture2D doodad_texture = Content.Load<Texture2D>("Sprites/Orb_IdleSheet");
+                    Animation doodad_animation = new Animation();
+                    doodad_animation.Initialize(doodad_texture, Vector2.Zero, 64, 64, 9, 160, Color.White, 1f, true);
+                    DeadlyDoodad deadlyDoodad = new DeadlyDoodad();
+                    deadlyDoodad.Initialize(doodad_animation, 0.25f, new Vector2(room.Width() /2,
+                    room.Height()/2));
+                    room.roomItems.Add(deadlyDoodad);
                 }
                 base.Update(gameTime);
             }
@@ -539,7 +555,14 @@ namespace GameJam2015
             if (CurrentState == States.Play)
             {
                 room.Draw(spriteBatch);
-
+                if (Invincibility > 0)
+                {
+                    player.SpriteAnimation.color = Color.White * 0.5f;
+                }
+                else
+                {
+                    player.SpriteAnimation.color = Color.White;
+                }
                 foreach (Entity e in room.roomItems)
                 {
                     e.Draw(spriteBatch);

@@ -11,18 +11,19 @@ using System.Threading;
 
 namespace GameJam2015
 {
-    class DeadlyDoodad : Entity
+    class DeadlyDoodad : AnimatedEntity
     {
         static readonly int CHANGE_TIME = 1000;
         static readonly int DOODAD_SPEED = 2;
         int timeUntilChange = CHANGE_TIME;
         Random rand;
 
-        public override void Initialize(Texture2D texture, float scale, Vector2 position)
+        public override void Initialize(Animation texture, float scale, Vector2 position)
         {
             base.Initialize(texture, scale, position);
             Velocity.X = DOODAD_SPEED;
             Deadly = true;
+            Solid = false;
             rand = new Random();
         }
 

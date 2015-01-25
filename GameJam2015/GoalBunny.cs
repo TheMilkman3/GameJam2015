@@ -12,7 +12,7 @@ namespace GameJam2015
         static readonly int CHANGE_TIME = 500;
         static readonly int BUNNY_SPEED = 5;
         int timeUntilChange = CHANGE_TIME;
-        int AIState = 0;
+        Random rand = new Random();
         public override void Initialize(Animation anim, float scale, Vector2 position)
         {
             base.Initialize(anim, scale, position);
@@ -25,54 +25,16 @@ namespace GameJam2015
             timeUntilChange -= gameTime.ElapsedGameTime.Milliseconds;
             if (timeUntilChange <= 0)
             {
+                int n = rand.Next(2);
+                if (n == 0)
+                {
+                    RotateCW();
+                }
+                else if (n == 1)
+                {
+                    RotateCCW();
+                }
                 timeUntilChange = CHANGE_TIME;
-                Velocity = new Vector2(BUNNY_SPEED, 0);
-                
-                if (AIState == 10)
-                {
-                    AIState = 0;
-                }
-                else
-                {
-                    AIState++;
-                }
-
-                switch (AIState)
-                {
-                    case 0:
-                        RotateCW();
-                        break;
-                    case 1:
-                        RotateCCW();
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        RotateCW();
-                        break;
-                    case 4:
-                        RotateCCW();
-                        break;
-                    case 5:
-                        RotateCCW();
-                        break;
-                    case 6:
-                        RotateCW();
-                        break;
-                    case 7:
-                        RotateCCW();
-                        break;
-                    case 8:
-                        RotateCW();
-                        break;
-                    case 9:
-                        RotateCW();
-                        break;
-                    case 10:
-                        RotateCW();
-                        break;
-
-                }
             }
             return base.Update(entities, gameTime);
 
