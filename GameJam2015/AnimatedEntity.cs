@@ -25,7 +25,7 @@ namespace GameJam2015
         /// </summary>
         /// <param name="texture">Entity's 2d sprite.</param>
         /// <param name="position">X,Y coordinates of the entity on screen.</param>
-        public void Initialize(Animation anim, float scale, Vector2 position)
+        public virtual void Initialize(Animation anim, float scale, Vector2 position)
         {
             base.Initialize(null, scale, position);
             Solid = true;
@@ -37,9 +37,17 @@ namespace GameJam2015
         /// Per frame update of entity.
         /// </summary>
         /// <param name="entities">List of entities in room</param>
-        public new void Update(List<Entity> entities, GameTime gameTime)
+        public override void Update(List<Entity> entities, GameTime gameTime)
         {
             base.Update(entities, gameTime);
+            if (Velocity.X < 0)
+            {
+                SpriteAnimation.FlipHorizontally = true;
+            }
+            else if (Velocity.X > 0)
+            {
+                SpriteAnimation.FlipHorizontally = false;
+            }
             SpriteAnimation.Position = Position;
             SpriteAnimation.Update(gameTime);
         }
