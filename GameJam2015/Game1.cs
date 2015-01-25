@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace GameJam2015
 {
-    ///TESTESTESTEST
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -60,7 +59,7 @@ namespace GameJam2015
             entities.Add(goalBunny);
             entities.Add(player);
             audio = new AudioManager(Content.RootDirectory);
-            CurrentState = States.Play;
+            CurrentState = States.MainMenu;
             menuOption = MenuSelect.Start;
             base.Initialize();
         }
@@ -79,11 +78,12 @@ namespace GameJam2015
             bunnyMeltInstance = bunnyMelt.CreateInstance();
 
 
+
             // TODO: use this.Content to load your game content here
             // Load the player resources
             Animation playerAnimation = new Animation();
-            Texture2D playerTexture = Content.Load<Texture2D>("BunJumpSheet.png");
-            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 128, 4, 80, Color.White, 1f, true);
+            Texture2D playerTexture = Content.Load<Texture2D>("Sprites/HeroIdleSheet.png");
+            playerAnimation.Initialize(playerTexture, Vector2.Zero, 128, 256, 5, 80, Color.White, 1f, true);
 
             // Load audio into the AudioManager. Plays the background music upon loading.
             audio.LoadAudio();
@@ -96,11 +96,11 @@ namespace GameJam2015
 
             // Load the bunny resources
             Animation stareAnimation = new Animation();
-            Texture2D stareTexture = Content.Load<Texture2D>("BunStareSheet.png");
+            Texture2D stareTexture = Content.Load<Texture2D>("Sprites/BunStareSheet.png");
             stareAnimation.Initialize(stareTexture, Vector2.Zero, 128, 128, 8, 80, Color.White, 1f, true);
 
             Animation jumpAnimation = new Animation();
-            Texture2D jumpTexture = Content.Load<Texture2D>("BunJumpSheet.png");
+            Texture2D jumpTexture = Content.Load<Texture2D>("Sprites/BunJumpSheet.png");
             jumpAnimation.Initialize(jumpTexture, Vector2.Zero, 128, 128, 4, 80, Color.White, 1f, true);
 
             Vector2 bunnyPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X + GraphicsDevice.Viewport.TitleSafeArea.Width/2,
@@ -172,6 +172,11 @@ namespace GameJam2015
                 }
                 foreach (Entity e in entities)
                 {
+                    //player.Position.X = MathHelper.Clamp(player.Position.X, 0, GraphicsDevice.Viewport.Width - player.Width());
+                    //player.Position.Y = MathHelper.Clamp(player.Position.Y, 0, GraphicsDevice.Viewport.Height - player.Height());
+
+                    e.Position.X = MathHelper.Clamp(e.Position.X, 0, GraphicsDevice.Viewport.Width - e.Width());
+                    e.Position.Y = MathHelper.Clamp(e.Position.Y, 0, GraphicsDevice.Viewport.Height - e.Height());
                     e.Update(entities, gameTime);
                 }
 
@@ -196,13 +201,13 @@ namespace GameJam2015
                 // Make sure to not call update methods or game time here
                 if(menuOption == MenuSelect.Start)
                 {
-                    //menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
+                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
                     menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, exitPosition);
                 }
                 else
                 {
                     menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, menuPosition);
-                    //menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
+                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
                 {

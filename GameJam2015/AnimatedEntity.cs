@@ -13,11 +13,11 @@ namespace GameJam2015
 
         public override int Width()
         {
-            return SpriteAnimation.FrameWidth;
+            return (int)(SpriteAnimation.FrameWidth * SpriteAnimation.scale);
         }
         public override int Height()
         {
-            return SpriteAnimation.FrameHeight;
+            return (int)(SpriteAnimation.FrameHeight * SpriteAnimation.scale);
         }
 
         /// <summary>
