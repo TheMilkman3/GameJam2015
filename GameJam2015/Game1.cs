@@ -34,7 +34,7 @@ namespace GameJam2015
         List<Entity> entities = new List<Entity>();
         SoundEffect bunnyMelt;
         SoundEffectInstance bunnyMeltInstance;
-        Entity menuStart, menuExit;
+        Entity menuStart, menuExit, cursor;
         Room room;
         Obstacles desk, table;
 
@@ -87,8 +87,8 @@ namespace GameJam2015
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //Sound effect loading. Plays while background music is playing.
-            bunnyMelt = Content.Load<SoundEffect>(@"Audio\\03_Child_Bride.wav");
-            bunnyMeltInstance = bunnyMelt.CreateInstance();
+            //bunnyMelt = Content.Load<SoundEffect>(@"Audio\\03_Child_Bride.wav");
+            //bunnyMeltInstance = bunnyMelt.CreateInstance();
 
             //Initialize the room where all entities reside
             Texture2D roomTexture = Content.Load<Texture2D>("Sprites/Test Background.png");
@@ -232,22 +232,29 @@ namespace GameJam2015
             }
             else if (CurrentState == States.MainMenu || CurrentState == States.PauseMenu)
             {
+                Texture2D titleTexture = Content.Load<Texture2D>("Sprites/Title Screen.png");
+                Vector2 titlePosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 3);
+                Entity title = new Entity();
+                title.Initialize(titleTexture, 1, titlePosition);
                 menuStart = new Entity();
                 menuExit = new Entity();
+                cursor = new Entity();
 
                 Vector2 menuPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 3);
                 Vector2 exitPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.Viewport.TitleSafeArea.Height / 2);
-
+                //Vector2 cursorPosition = new Vector2(GraphicsDevice.Viewport.TitleSafeArea.X, GraphicsDevice.Viewport.TitleSafeArea.Y + GraphicsDevice.V)
                 // Make sure to not call update methods or game time here
                 if(menuOption == MenuSelect.Start)
                 {
-                    //menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
-                    //menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, exitPosition);
+                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, menuPosition);
+                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, exitPosition);
+                    cursor.Initialize(Content.Load<Texture2D>("Sprites/Cursor.png"), 0.5f, menuPosition);
                 }
                 else
                 {
-                    //menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, menuPosition);
-                    //menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
+                    menuStart.Initialize(Content.Load<Texture2D>("Sprites/Sprite.png"), 0.5f, menuPosition);
+                    menuExit.Initialize(Content.Load<Texture2D>("Sprites/Sprite2.png"), 0.5f, exitPosition);
+                    cursor.Initialize(Content.Load<Texture2D>("Sprites/Cursor.png"), 0.5f, exitPosition);
                 }
                 if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
                 {
