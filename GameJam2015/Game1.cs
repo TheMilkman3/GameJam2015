@@ -126,24 +126,7 @@ namespace GameJam2015
         {
             if (CurrentState == States.Play)
             {
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                    Exit();
-                if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.W))
-                {
-                    player.Velocity = new Vector2(0, -PLAYER_SPEED);
-                }
-                if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.A))
-                {
-                    player.Velocity = new Vector2(-PLAYER_SPEED, 0);
-                }
-                if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.D))
-                {
-                    player.Velocity = new Vector2(PLAYER_SPEED, 0);
-                }
-                if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.S))
-                {
-                    player.Velocity = new Vector2(0, PLAYER_SPEED);
-                }
+                InputPlusMovement();
                 if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed)
                 {
                     audio.Play("child");
@@ -266,6 +249,165 @@ namespace GameJam2015
 
             base.Draw(gameTime);
         }
+
+        /// <summary>
+        /// Each button press sets that players voting boolean to true, preventing them from getting multiple votes, as well as raises the 'global' vote for 
+        /// the direction chosen. Absense of a vote results in a vote to not move. Then it checks to see what direction had the most votes and moves in that 
+        /// direction, ties result in staying. 
+        /// </summary>
+        public void InputPlusMovement()
+        {
+            Boolean P1Vote, P2Vote, P3Vote, P4Vote; //has the player voted this update cycle?
+            int Vup, Vdown, Vleft, Vright, Vstay;   // tally up the votes
+            P1Vote = false;
+            P2Vote = false;
+            P3Vote = false;
+            P4Vote = false;
+            Vstay = 0;
+            Vup = 0;
+            Vdown = 0;
+            Vright = 0;
+            Vleft = 0;
+
+            // Player 1 Input
+
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+            if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed && !P1Vote || Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                P1Vote = true;
+                Vup++;
+            }
+            if (GamePad.GetState(PlayerIndex.One).DPad.Left == ButtonState.Pressed && !P1Vote || Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                P1Vote = true;
+                Vleft++;
+            }
+            if (GamePad.GetState(PlayerIndex.One).DPad.Right == ButtonState.Pressed && !P1Vote || Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                P1Vote = true;
+                Vright++;
+            }
+            if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed && !P1Vote || Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                P1Vote = true;
+                Vdown++;
+            }
+            //Player 2 Input
+            if (GamePad.GetState(PlayerIndex.Two).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+            if (GamePad.GetState(PlayerIndex.Two).DPad.Up == ButtonState.Pressed && !P2Vote || Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                P2Vote = true;
+                Vup++;
+            }
+            if (GamePad.GetState(PlayerIndex.Two).DPad.Left == ButtonState.Pressed && !P2Vote || Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                P2Vote = true;
+                Vleft++;
+            }
+            if (GamePad.GetState(PlayerIndex.Two).DPad.Right == ButtonState.Pressed && !P2Vote || Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                P2Vote = true;
+                Vright++;
+            }
+            if (GamePad.GetState(PlayerIndex.Two).DPad.Down == ButtonState.Pressed && !P2Vote || Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                P2Vote = true;
+                Vdown++;
+            }
+
+            //Player 3 Input
+            if (GamePad.GetState(PlayerIndex.Three).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+            if (GamePad.GetState(PlayerIndex.Three).DPad.Up == ButtonState.Pressed && !P3Vote || Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                P3Vote = true;
+                Vup++;
+            }
+            if (GamePad.GetState(PlayerIndex.Three).DPad.Left == ButtonState.Pressed && !P3Vote || Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                P3Vote = true;
+                Vleft++;
+            }
+            if (GamePad.GetState(PlayerIndex.Three).DPad.Right == ButtonState.Pressed && !P3Vote || Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                P3Vote = true;
+                Vright++;
+            }
+            if (GamePad.GetState(PlayerIndex.Three).DPad.Down == ButtonState.Pressed && !P3Vote || Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                P3Vote = true;
+                Vdown++;
+            }
+
+            //Player 4 
+            if (GamePad.GetState(PlayerIndex.Four).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+            if (GamePad.GetState(PlayerIndex.Four).DPad.Up == ButtonState.Pressed && !P4Vote || Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                P4Vote = true;
+                Vup++;
+            }
+            if (GamePad.GetState(PlayerIndex.Four).DPad.Left == ButtonState.Pressed && !P4Vote || Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                P4Vote = true;
+                Vleft++;
+            }
+            if (GamePad.GetState(PlayerIndex.Four).DPad.Right == ButtonState.Pressed && !P4Vote || Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                P4Vote = true;
+                Vright++;
+            }
+            if (GamePad.GetState(PlayerIndex.Four).DPad.Down == ButtonState.Pressed && !P4Vote || Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                P4Vote = true;
+                Vdown++;
+            }
+
+            //Checks to see who has not voted and gives a vote for staying for each non-voting player.
+            if (!P1Vote)
+            {
+                Vstay++;
+            }
+            if (!P2Vote)
+            {
+                Vstay++;
+            }
+            if (!P3Vote)
+            {
+                Vstay++;
+            }
+            if (!P4Vote)
+            {
+                Vstay++;
+            }
+
+            //In the MOST fancy and streamlined of ways, Tallys the votes through several greather than statements (might be worried about how this looks but it
+            //works and its game jam soooooo......)
+            if (Vup > Vdown && Vup > Vleft && Vup > Vright && Vup > Vstay)
+            {
+                player.Velocity = new Vector2(0, -PLAYER_SPEED);
+            }
+            else if (Vleft > Vdown && Vleft > Vright && Vleft > Vdown && Vleft > Vstay)
+            {
+                player.Velocity = new Vector2(-PLAYER_SPEED, 0);
+            }
+            else if (Vright > Vdown && Vright > Vleft && Vright > Vup && Vright > Vstay)
+            {
+                player.Velocity = new Vector2(PLAYER_SPEED, 0);
+            }
+            else if (Vdown > Vleft && Vdown > Vright && Vdown > Vup && Vdown > Vstay)
+            {
+                player.Velocity = new Vector2(0, PLAYER_SPEED);
+            }
+            else if (Vstay > Vleft && Vstay > Vright && Vstay > Vdown && Vstay > Vup)
+            {
+                player.Velocity = Vector2.Zero;
+
+            }
+        }
+
 
     }
 }
