@@ -129,6 +129,9 @@ namespace GameJam2015
             Texture2D playerDownTexture = Content.Load<Texture2D>("Sprites/HeroWalkDownSheet.png");
             playerDownAnimation.Initialize(playerDownTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, .25f, true);
 
+            Texture2D playerRightTexture = Content.Load<Texture2D>("Sprites/HeroWalkSideSheet.png");
+            playerRightAnimation.Initialize(playerRightTexture, Vector2.Zero, 128, 256, 4, 80, Color.White, .25f, true);
+
             // Load audio into the AudioManager. Plays the background music upon loading.
             audio.LoadAudio();
             audio.Play("fuq");
@@ -238,11 +241,13 @@ namespace GameJam2015
                 }
                 else if (playerDirection == Direction.Left)
                 {
-                    player.SpriteAnimation = playerIdleAnimation;
+                    playerRightAnimation.FlipHorizontally = true;
+                    player.SpriteAnimation = playerRightAnimation;
                 }
                 else if (playerDirection == Direction.Right)
                 {
-                    player.SpriteAnimation = playerIdleAnimation;
+                    playerRightAnimation.FlipHorizontally = false;
+                    player.SpriteAnimation = playerRightAnimation;
                 }
 
                 foreach (Entity e in entities)
